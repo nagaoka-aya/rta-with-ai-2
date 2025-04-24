@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        - USERNAME=vscode
+    command: sleep infinity
+    volumes:
+      - vscode-extensions:/root/.vscode-server/extensions
+      - ../..:/workspaces:cached
+  postgres:
+    image: postgres:14.2
+    container_name: postgres-rta2
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  vscode-extensions:
+  postgres: {}

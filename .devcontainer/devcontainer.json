@@ -1,0 +1,37 @@
+{
+    "name": "${localWorkspaceFolderBasename}", // コンテナー表示名
+    "dockerComposeFile": "./docker-compose.yml", // Docker Composeのファイルパス
+    "service": "app", // VS Codeがアタッチするコンテナー
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}", // VS Codeがコンテナー起動時に開くディレクトリ
+    "remoteUser": "${localEnv:USER}", // VS Codeがコンテナーにアタッチする際に使用するユーザー
+    "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "17",
+            "installMaven": true
+        }
+    },
+    "updateRemoteUserUID": true, // ユーザーのUID/GIDをホストのユーザーと同期
+    "postCreateCommand": "mvn install -f parent/pom.xml; mvn -P gsp generate-resources -f common/pom.xml; mvn install -DskipTests -f common/pom.xml", // コンテナー作成/再作成後、workspaceFolderで初回のみ実行されるコマンド
+    "customizations": {
+        "vscode": {
+            "extensions": [ // 自動でインストールされるVS Codeの拡張機能
+                // formatting and linting
+                "streetsidesoftware.code-spell-checker",
+                // Japanese
+                "sgryjp.japanese-word-handler",
+                "ICS.japanese-proofreading",
+                // Docker
+                "ms-azuretools.vscode-docker",
+                // Java
+                "redhat.java",
+                // Github copilot
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
+            ],
+            "settings": { // VS Codeの設定
+                "editor.guides.bracketPairs": true,
+                "editor.renderWhitespace": "all"
+            }
+        }
+    }
+}

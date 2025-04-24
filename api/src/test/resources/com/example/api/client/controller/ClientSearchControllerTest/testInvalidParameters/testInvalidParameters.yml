@@ -1,0 +1,29 @@
+code_name:
+  - code_id: C0100001
+    code_value: "01"
+    lang: ja
+    sort_order: 1
+    code_name: 農業
+  - code_id: C0100001
+    code_value: "02"
+    lang: ja
+    sort_order: 2
+    code_name: 建設業
+  - code_id: C0100001
+    code_value: "03"
+    lang: ja
+    sort_order: 3
+    code_name: 製造業
+code_pattern:
+  - code_id: C0100001
+    code_value: "01"
+    pattern01: 1
+    lang: ja
+  - code_id: C0100001
+    code_value: "02"
+    pattern01: 1
+    lang: ja
+  - code_id: C0100001
+    code_value: "03"
+    pattern01: 1
+    lang: ja
