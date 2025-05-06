@@ -1,131 +1,277 @@
 <!DOCTYPE html>
-<html th:replace="~{common/layout :: layout(~{:: title}, ~{:: body/content()}, true)}"
-  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/default}">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" />
-  <script src="../../../static/js/jquery-3.6.0.min.js"></script>
-  <script src="../../../static/js/bootstrap.bundle.min.js"></script>
-  <script src="../../../static/js/common.js"></script>
   <title>プロジェクト登録</title>
+  <style>
+    .required-label::after {
+      content: " *";
+      color: red;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 
-<body class="container">
-  <span></span>
-  <div class="row mb-4">
-    <div class="col">
-      <div class="fs-2 fw-bold">プロジェクト登録</div>
-    </div>
-  </div>
-  <form method="POST" action="./confirm.html">
-    <span class="text-danger fw-bold"></span>
-    <div class="row mb-3">
-      <div class="col-6">
-        <label for="divisionId" class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
-        </select>
-        <span class="invalid-feedback"></span>
-      </div>
-      <div class="col-6">
-        <label for="organizationId" class="form-label">&nbsp;</label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
-        </select>
-        <span class="invalid-feedback"></span>
-      </div>
-    </div>
-    <div class="col mb-3">
-      <label for="projectName" class="form-label fw-bold">PJ名<span class="fw-6 text-danger">*</span></label>
-      <input type="text" placeholder="PJ名" class="form-control" maxlength="128" />
-      <span class="invalid-feedback"></span>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <label for="projectType" class="form-label fw-bold">PJ種別<span class="fw-6 text-danger">*</span></label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
-        </select>
-        <span class="invalid-feedback"></span>
-      </div>
-      <div class="col-6">
-        <label for="projectClass" class="form-label fw-bold">PJ分類<span class="fw-6 text-danger">*</span></label>
-        <div>
-          <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" />
-            <label class="form-check-label">SS</label>
-          </div>
-          <span class="invalid-feedback"></span>
-        </div>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <label for="sales" class="form-label fw-bold">売上高(千円)</label>
-        <input type="text" placeholder="売上高" class="form-control" maxlength="9" />
-        <span class="invalid-feedback"></span>
-      </div>
-      <div class="col-6">
-        <label for="clientId" class="form-label fw-bold">顧客<span class="fw-6 text-danger">*</span></label>
-        <div class="input-group">
-          <input type="text" id="clientName" placeholder="顧客" class="form-control" readonly="readonly" />
-          <input type="hidden" id="clientId" />
-          <!--/* 顧客選択サブウィンドウを起動する（data-bs属性でbootstrapのモーダル機能を設定） */-->
-          <button type="button" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#clientModal">
-            選択
-          </button>
-          <span class="invalid-feedback"></span>
-        </div>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <label for="projectManager" class="form-label fw-bold">PM<span class="fw-6 text-danger">*</span></label>
-        <input type="text" placeholder="PM" class="form-control" maxlength="128" />
-        <span class="invalid-feedback"></span>
-      </div>
-      <div class="col-6">
-        <label for="projectLeader" class="form-label fw-bold">PL<span class="fw-6 text-danger">*</span></label>
-        <input type="text" placeholder="PL" class="form-control" maxlength="128" />
-        <span class="invalid-feedback"></span>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <label for="projectStartDate" class="form-label fw-bold">開始日<span class="fw-6 text-danger">*</span></label>
-        <input type="date" placeholder="開始日" class="form-control" />
-        <span class="invalid-feedback"></span>
-        <span class="invalid-feedback"></span>
-      </div>
-      <div class="col-6">
-        <label for="projectEndDate" class="form-label fw-bold">終了日<span class="fw-6 text-danger">*</span></label>
-        <input type="date" placeholder="終了日" class="form-control" />
-        <span class="invalid-feedback"></span>
-      </div>
-    </div>
-    <div class="col mb-3">
-      <label for="note" class="form-label fw-bold">備考</label>
-      <textarea class="form-control" maxlength="512"></textarea>
-      <span class="invalid-feedback"></span>
+<body>
+  <div layout:fragment="content">
+    <h1 class="mb-4">プロジェクト登録</h1>
+
+    <div th:if="${#fields.hasErrors('all')}" class="alert alert-danger">
+      <ul>
+        <li th:each="err : ${#fields.errors('all')}" th:text="${err}">エラーメッセージ</li>
+      </ul>
     </div>
 
-    <div class="row justify-content-center pt-4">
-      <div class="col-2">
-        <input class="btn btn-primary w-100" type="submit" value="確認" />
+    <form th:action="@{/project/create/confirm}" th:object="${projectCreateForm}" method="post">
+      <div class="card mb-4">
+        <div class="card-header">プロジェクト基本情報</div>
+        <div class="card-body">
+          <!-- 事業部 -->
+          <div class="form-group row">
+            <label for="divisionId" class="col-sm-3 col-form-label required-label">事業部</label>
+            <div class="col-sm-9">
+              <select id="divisionId" th:field="*{divisionId}" class="form-control"
+                th:classappend="${#fields.hasErrors('divisionId')} ? 'is-invalid'" onchange="loadDepartments()">
+                <option value="">選択してください</option>
+                <option th:each="division : ${divisions}" th:value="${division.organizationId}"
+                  th:text="${division.organizationName}">事業部名</option>
+              </select>
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('divisionId')}" th:errors="*{divisionId}">
+                事業部エラーメッセージ</div>
+            </div>
+          </div>
+
+          <!-- 部門 -->
+          <div class="form-group row">
+            <label for="organizationId" class="col-sm-3 col-form-label required-label">部門</label>
+            <div class="col-sm-9">
+              <select id="organizationId" th:field="*{organizationId}" class="form-control"
+                th:classappend="${#fields.hasErrors('organizationId')} ? 'is-invalid'">
+                <option value="">選択してください</option>
+                <option th:each="department : ${departments}" th:value="${department.organizationId}"
+                  th:text="${department.organizationName}" th:if="${departments != null}">部門名</option>
+              </select>
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('organizationId')}"
+                th:errors="*{organizationId}">部門エラーメッセージ</div>
+            </div>
+          </div>
+
+          <!-- プロジェクト名 -->
+          <div class="form-group row">
+            <label for="projectName" class="col-sm-3 col-form-label required-label">プロジェクト名</label>
+            <div class="col-sm-9">
+              <input type="text" id="projectName" th:field="*{projectName}" class="form-control"
+                th:classappend="${#fields.hasErrors('projectName')} ? 'is-invalid'" maxlength="100">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('projectName')}" th:errors="*{projectName}">
+                プロジェクト名エラーメッセージ</div>
+            </div>
+          </div>
+
+          <!-- プロジェクト種別 -->
+          <div class="form-group row">
+            <label for="projectType" class="col-sm-3 col-form-label required-label">プロジェクト種別</label>
+            <div class="col-sm-9">
+              <select id="projectType" th:field="*{projectType}" class="form-control"
+                th:classappend="${#fields.hasErrors('projectType')} ? 'is-invalid'">
+                <option value="">選択してください</option>
+                <option th:each="codeValue : ${@codeViewHelper.getValues('C0100001', 'pattern01')}"
+                  th:value="${codeValue}" th:text="${@codeViewHelper.getName('C0100001', codeValue)}">プロジェクト種別</option>
+              </select>
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('projectType')}" th:errors="*{projectType}">
+                プロジェクト種別エラーメッセージ</div>
+            </div>
+          </div>
+
+          <!-- プロジェクト分類 -->
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label required-label">プロジェクト分類</label>
+            <div class="col-sm-9">
+              <div class="form-check form-check-inline"
+                th:each="codeValue : ${@codeViewHelper.getValues('C0200001', 'pattern01')}"
+                th:classappend="${#fields.hasErrors('projectClass')} ? 'is-invalid'">
+                <input type="radio" class="form-check-input" th:field="*{projectClass}" th:value="${codeValue}"
+                  th:id="${'projectClass-' + codeValue}" th:errorclass="is-invalid">
+                <label th:for="${'projectClass-' + codeValue}" class="form-check-label"
+                  th:text="${@codeViewHelper.getName('C0200001', codeValue)}">分類</label>
+              </div>
+              <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('projectClass')}"
+                th:errors="*{projectClass}">プロジェクト分類エラーメッセージ</div>
+            </div>
+          </div>
+
+          <!-- 売上高 -->
+          <div class="form-group row">
+            <label for="sales" class="col-sm-3 col-form-label">売上高</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="text" id="sales" th:field="*{sales}" class="form-control text-right"
+                  th:classappend="${#fields.hasErrors('sales')} ? 'is-invalid'" pattern="^[0-9]*$">
+                <div class="input-group-append">
+                  <span class="input-group-text">千円</span>
+                </div>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('sales')}" th:errors="*{sales}">売上高エラーメッセージ
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 顧客 -->
+          <div class="form-group row">
+            <label for="clientId" class="col-sm-2 col-form-label">顧客</label>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input type="text" class="form-control" id="clientId" th:field="*{clientId}" readonly />
+                <div class="input-group-append">
+                  <button type="button" id="clientSearchButton" class="btn btn-outline-secondary">検索</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="clientName" readonly />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </form>
+
+      <div class="card mb-4">
+        <div class="card-header">担当者情報</div>
+        <div class="card-body">
+          <!-- プロジェクトマネージャー -->
+          <div class="form-group row">
+            <label for="projectManager" class="col-sm-3 col-form-label required-label">プロジェクトマネージャー</label>
+            <div class="col-sm-9">
+              <input type="text" id="projectManager" th:field="*{projectManager}" class="form-control"
+                th:classappend="${#fields.hasErrors('projectManager')} ? 'is-invalid'" maxlength="20">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('projectManager')}"
+                th:errors="*{projectManager}">プロジェクトマネージャーエラーメッセージ</div>
+            </div>
+          </div>
+
+          <!-- プロジェクトリーダー -->
+          <div class="form-group row">
+            <label for="projectLeader" class="col-sm-3 col-form-label">プロジェクトリーダー</label>
+            <div class="col-sm-9">
+              <input type="text" id="projectLeader" th:field="*{projectLeader}" class="form-control"
+                th:classappend="${#fields.hasErrors('projectLeader')} ? 'is-invalid'" maxlength="20">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('projectLeader')}" th:errors="*{projectLeader}">
+                プロジェクトリーダーエラーメッセージ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">日程情報</div>
+        <div class="card-body">
+          <!-- プロジェクト期間 -->
+          <div class="form-group row">
+            <label for="projectStartDate" class="col-sm-3 col-form-label required-label">プロジェクト期間</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="date" id="projectStartDate" th:field="*{projectStartDate}" class="form-control"
+                  th:classappend="${#fields.hasErrors('projectStartDate')} ? 'is-invalid'">
+                <div class="input-group-append input-group-prepend">
+                  <span class="input-group-text">～</span>
+                </div>
+                <input type="date" id="projectEndDate" th:field="*{projectEndDate}" class="form-control"
+                  th:classappend="${#fields.hasErrors('projectEndDate')} ? 'is-invalid'">
+              </div>
+              <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('projectStartDate')}"
+                th:errors="*{projectStartDate}">開始日エラーメッセージ</div>
+              <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('projectEndDate')}"
+                th:errors="*{projectEndDate}">終了日エラーメッセージ</div>
+              <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('global')}"
+                th:text="${#fields.errors('global')}">日付相関チェックエラーメッセージ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">備考</div>
+        <div class="card-body">
+          <!-- 備考 -->
+          <div class="form-group row">
+            <div class="col-12">
+              <textarea id="note" th:field="*{note}" class="form-control"
+                th:classappend="${#fields.hasErrors('note')} ? 'is-invalid'" rows="4" maxlength="1000"></textarea>
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('note')}" th:errors="*{note}">備考エラーメッセージ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary">確認</button>
+      </div>
+
+    </form>
+  </div>
+
+  <th:block layout:fragment="script">
+    <script th:inline="javascript">
+      // 部門リストの非同期取得
+      function loadDepartments() {
+        const divisionId = document.getElementById('divisionId').value;
+        if (!divisionId) {
+          // 事業部が選択されていない場合は部門リストをクリア
+          const organizationSelect = document.getElementById('organizationId');
+          organizationSelect.innerHTML = '<option value="">選択してください</option>';
+          return;
+        }
+
+        // 部門リスト取得APIの呼び出し
+        fetch(`/project/create/departments?divisionId=${divisionId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('部門リストの取得に失敗しました');
+            }
+            return response.json();
+          })
+          .then(departments => {
+            const organizationSelect = document.getElementById('organizationId');
+            organizationSelect.innerHTML = '<option value="">選択してください</option>';
+
+            // 取得した部門リストをセレクトボックスに追加
+            departments.forEach(department => {
+              const option = document.createElement('option');
+              option.value = department.organizationId;
+              option.textContent = department.organizationName;
+              organizationSelect.appendChild(option);
+            });
+          })
+          .catch(error => {
+            console.error('エラーが発生しました:', error);
+            alert('部門リストの取得中にエラーが発生しました。');
+          });
+      }
+
+      // 顧客検索画面を開く
+      function openClientSearch() {
+        // 顧客検索画面をポップアップで開く
+        window.open('/project/create/client-search', 'clientSearch',
+          'width=800,height=600,resizable=yes,scrollbars=yes');
+      }
+
+      // 顧客選択結果を受け取る関数（顧客検索画面から呼び出される）
+      function setSelectedClient(clientId, clientName) {
+        document.getElementById('clientId').value = clientId;
+      }
+
+      // 初期表示時に事業部が選択されている場合は部門リストを読み込む
+      document.addEventListener('DOMContentLoaded', function () {
+        const divisionId = document.getElementById('divisionId').value;
+        if (divisionId) {
+          loadDepartments();
+        }
+      });
+    </script>
+    <script th:src="@{/js/project/client-select.js}"></script>
+  </th:block>
 </body>
 
 </html>

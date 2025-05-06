@@ -1,95 +1,120 @@
 <!DOCTYPE html>
-<html th:replace="~{common/layout :: layout(~{:: title}, ~{:: body/content()}, true)}"
-  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/default}">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" />
-  <script src="../../../static/js/jquery-3.6.0.min.js"></script>
-  <script src="../../../static/js/bootstrap.bundle.min.js"></script>
-  <script src="../../../static/js/common.js"></script>
-  <title>プロジェクト登録</title>
+  <title>プロジェクト登録確認</title>
 </head>
 
-<body class="container">
-  <span></span>
-  <div class="row mb-4">
-    <div class="col">
-      <div class="fs-2 fw-bold">プロジェクト登録確認</div>
+<body>
+  <div layout:fragment="content">
+    <h1 class="mb-4">プロジェクト登録確認</h1>
+
+    <div class="alert alert-info mb-4">
+      以下の内容でプロジェクトを登録します。内容をご確認ください。
     </div>
-  </div>
-  <form method="POST" action="./complete.html">
-    <span class="text-danger fw-bold"></span>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">A事業部</span>
-      </div>
-      <div class="col-6">
-        <span class="form-label">&nbsp;</span>
-        <span class="form-control-plaintext">C部門</span>
-      </div>
-    </div>
-    <div class="col mb-3">
-      <span class="form-label fw-bold">PJ名<span class="fw-6 text-danger">*</span></span>
-      <span class="form-control-plaintext">○○プロジェクト</span>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">PJ種別<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">新規開発PJ</span>
-      </div>
-      <div class="col-6">
-        <span class="form-label fw-bold">PJ分類<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">SS</span>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">売上高(千円)</span>
-        <span class="form-control-plaintext">15,000</span>
-      </div>
-      <div class="col-6">
-        <span class="form-label fw-bold">顧客<span class="fw-6 text-danger">*</span></span>
-        <div class="input-group">
-          <span class="form-control-plaintext">0</span>
+
+    <form th:action="@{/project/create/execute}" th:object="${projectCreateForm}" method="post"
+      class="needs-validation">
+      <!-- トランザクショントークン -->
+      <input type="hidden" name="transaction_token" th:value="${transaction_token}" />
+
+      <!-- 隠しフィールド：全ての入力値をhiddenで保持 -->
+      <input type="hidden" th:field="*{divisionId}" />
+      <input type="hidden" th:field="*{organizationId}" />
+      <input type="hidden" th:field="*{projectName}" />
+      <input type="hidden" th:field="*{projectType}" />
+      <input type="hidden" th:field="*{projectClass}" />
+      <input type="hidden" th:field="*{sales}" />
+      <input type="hidden" th:field="*{clientId}" />
+      <input type="hidden" th:field="*{projectManager}" />
+      <input type="hidden" th:field="*{projectLeader}" />
+      <input type="hidden" th:field="*{projectStartDate}" />
+      <input type="hidden" th:field="*{projectEndDate}" />
+      <input type="hidden" th:field="*{note}" />
+
+      <!-- 確認項目表示 -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">事業部</label>
+            <div class="col-sm-9" th:text="${projectDto.divisionName}">営業事業部</div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">部門</label>
+            <div class="col-sm-9" th:text="${projectDto.organizationName}">営業1部</div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">プロジェクト名</label>
+            <div class="col-sm-9" th:text="*{projectName}">サンプルプロジェクト</div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">プロジェクト種別</label>
+            <div class="col-sm-9" th:text="${projectDto.projectTypeName}">新規開発</div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">プロジェクト分類</label>
+            <div class="col-sm-9" th:text="${projectDto.projectClassName}">SS</div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">売上高</label>
+            <div class="col-sm-9">
+              <span th:text="${#numbers.formatInteger(projectCreateForm.sales, 1, 'COMMA')}">1,000,000</span> 円
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">顧客</label>
+            <div class="col-sm-9">
+              <span th:text="*{clientId}">CL001</span>
+              <span th:text="${projectDto.clientName}" class="ms-2">サンプル顧客</span>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">プロジェクトマネージャー</label>
+            <div class="col-sm-9" th:text="*{projectManager}">山田太郎</div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">プロジェクトリーダー</label>
+            <div class="col-sm-9" th:text="*{projectLeader}">鈴木一郎</div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">プロジェクト期間</label>
+            <div class="col-sm-9">
+              <span th:text="${#temporals.format(projectCreateForm.projectStartDate, 'yyyy/MM/dd')}">2023/01/01</span>
+              ～
+              <span th:text="${#temporals.format(projectCreateForm.projectEndDate, 'yyyy/MM/dd')}">2023/12/31</span>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-3 fw-bold">備考</label>
+            <div class="col-sm-9">
+              <pre class="form-control-plaintext" th:text="*{note}">備考内容</pre>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">PM<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">プロジェクトマネージャ</span>
+
+      <!-- ボタン -->
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <a th:href="@{/project/create}" class="btn btn-secondary">
+          <i class="bi bi-arrow-left me-1"></i>戻る
+        </a>
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-check-circle me-1"></i>登録する
+        </button>
       </div>
-      <div class="col-6">
-        <span class="form-label fw-bold">PL<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">プロジェクトリーダー</span>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">開始日<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">2022年1月1日</span>
-      </div>
-      <div class="col-6">
-        <span class="form-label fw-bold">終了日<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">2023年1月1日</span>
-      </div>
-    </div>
-    <div class="col mb-3">
-      <span class="form-label fw-bold">備考</span>
-      <span class="form-control-plaintext">備考欄</span>
-    </div>
-    <div class="row justify-content-center pt-4">
-      <div class="col-2">
-        <input class="btn btn-primary w-100" type="submit" name="back" value="戻る" />
-      </div>
-      <div class="col-2">
-        <input class="btn btn-primary w-100" type="submit" name="execute" value="登録" />
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </body>
 
 </html>
