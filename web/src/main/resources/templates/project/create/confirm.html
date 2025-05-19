@@ -1,95 +1,135 @@
 <!DOCTYPE html>
-<html th:replace="~{common/layout :: layout(~{:: title}, ~{:: body/content()}, true)}"
-  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{common/layout}">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" />
-  <script src="../../../static/js/jquery-3.6.0.min.js"></script>
-  <script src="../../../static/js/bootstrap.bundle.min.js"></script>
-  <script src="../../../static/js/common.js"></script>
-  <title>プロジェクト登録</title>
+  <title>プロジェクト登録確認</title>
 </head>
 
-<body class="container">
-  <span></span>
-  <div class="row mb-4">
-    <div class="col">
-      <div class="fs-2 fw-bold">プロジェクト登録確認</div>
+<body>
+  <div layout:fragment="content">
+    <h2 class="page-title">プロジェクト登録確認</h2>
+
+    <div class="alert alert-info">
+      <i class="fas fa-info-circle"></i> 入力内容をご確認の上、「登録」ボタンを押してください。
     </div>
-  </div>
-  <form method="POST" action="./complete.html">
-    <span class="text-danger fw-bold"></span>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">A事業部</span>
-      </div>
-      <div class="col-6">
-        <span class="form-label">&nbsp;</span>
-        <span class="form-control-plaintext">C部門</span>
-      </div>
-    </div>
-    <div class="col mb-3">
-      <span class="form-label fw-bold">PJ名<span class="fw-6 text-danger">*</span></span>
-      <span class="form-control-plaintext">○○プロジェクト</span>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">PJ種別<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">新規開発PJ</span>
-      </div>
-      <div class="col-6">
-        <span class="form-label fw-bold">PJ分類<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">SS</span>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">売上高(千円)</span>
-        <span class="form-control-plaintext">15,000</span>
-      </div>
-      <div class="col-6">
-        <span class="form-label fw-bold">顧客<span class="fw-6 text-danger">*</span></span>
-        <div class="input-group">
-          <span class="form-control-plaintext">0</span>
+
+    <form th:action="@{/project/create/register}" th:object="${projectCreateForm}" method="post">
+      <!-- hidden項目：入力値をすべて保持 -->
+      <input type="hidden" th:field="*{divisionId}" />
+      <input type="hidden" th:field="*{organizationId}" />
+      <input type="hidden" th:field="*{projectName}" />
+      <input type="hidden" th:field="*{projectType}" />
+      <input type="hidden" th:field="*{projectClass}" />
+      <input type="hidden" th:field="*{sales}" />
+      <input type="hidden" th:field="*{clientId}" />
+      <input type="hidden" th:field="*{projectManager}" />
+      <input type="hidden" th:field="*{projectLeader}" />
+      <input type="hidden" th:field="*{projectStartDate}" />
+      <input type="hidden" th:field="*{projectEndDate}" />
+      <input type="hidden" th:field="*{note}" />
+
+      <!-- トランザクショントークン -->
+      <input type="hidden" name="tk" th:value="${transactionToken}" />
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">プロジェクト基本情報</h5>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">事業部</div>
+            <div class="col-md-9" th:text="${@projectCreateViewHelper.getOrganizationName(divisionId)}"></div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">部門</div>
+            <div class="col-md-9"
+              th:text="${@projectCreateViewHelper.getOrganizationName(projectCreateForm.organizationId)}"></div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">プロジェクト名</div>
+            <div class="col-md-9" th:text="*{projectName}"></div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">プロジェクト種別</div>
+            <div class="col-md-9"
+              th:text="${@projectCreateViewHelper.getProjectTypeName(projectCreateForm.projectType)}"></div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">プロジェクト分類</div>
+            <div class="col-md-9"
+              th:text="${@projectCreateViewHelper.getProjectClassName(projectCreateForm.projectClass)}"></div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">売上高（千円）</div>
+            <div class="col-md-9" th:text="${#numbers.formatInteger(projectCreateForm.sales, 0, 'COMMA')}"></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">PM<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">プロジェクトマネージャ</span>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">顧客情報</h5>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">顧客ID</div>
+            <div class="col-md-9" th:text="*{clientId}"></div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">顧客名</div>
+            <div class="col-md-9" th:text="${@projectCreateViewHelper.getClientName(projectCreateForm.clientId)}"></div>
+          </div>
+        </div>
       </div>
-      <div class="col-6">
-        <span class="form-label fw-bold">PL<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">プロジェクトリーダー</span>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">担当者・期間</h5>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">プロジェクトマネージャー</div>
+            <div class="col-md-9" th:text="${@projectCreateViewHelper.getUserName(projectCreateForm.projectManager)}">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">プロジェクトリーダー</div>
+            <div class="col-md-9" th:text="${@projectCreateViewHelper.getUserName(projectCreateForm.projectLeader)}">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3 fw-bold">プロジェクト期間</div>
+            <div class="col-md-9">
+              <span th:text="${#temporals.format(projectCreateForm.projectStartDate, 'yyyy/MM/dd')}"></span>
+              <span> 〜 </span>
+              <span th:text="${#temporals.format(projectCreateForm.projectEndDate, 'yyyy/MM/dd')}"></span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-6">
-        <span class="form-label fw-bold">開始日<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">2022年1月1日</span>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">備考</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12" th:text="*{note ?: '（なし）'}"></div>
+          </div>
+        </div>
       </div>
-      <div class="col-6">
-        <span class="form-label fw-bold">終了日<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">2023年1月1日</span>
+
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <a th:href="@{/project/create}" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 入力画面へ戻る
+        </a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-check"></i> 登録する
+        </button>
       </div>
-    </div>
-    <div class="col mb-3">
-      <span class="form-label fw-bold">備考</span>
-      <span class="form-control-plaintext">備考欄</span>
-    </div>
-    <div class="row justify-content-center pt-4">
-      <div class="col-2">
-        <input class="btn btn-primary w-100" type="submit" name="back" value="戻る" />
-      </div>
-      <div class="col-2">
-        <input class="btn btn-primary w-100" type="submit" name="execute" value="登録" />
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </body>
 
 </html>

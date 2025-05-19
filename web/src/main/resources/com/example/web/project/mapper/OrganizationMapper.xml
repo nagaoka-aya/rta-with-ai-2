@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.web.project.mapper.OrganizationMapper">
+
+    <!-- 事業部一覧を取得するSQL -->
+    <select id="selectDivisions" resultType="com.example.web.project.model.Organization">
+        SELECT
+            organization_id as organizationId,
+            organization_name as organizationName,
+            upper_organization as upperOrganization
+        FROM
+            Organization
+        WHERE
+            upper_organization IS NULL
+        ORDER BY
+            organization_id
+    </select>
+
+    <!-- 指定された事業部に属する部門一覧を取得するSQL -->
+    <select id="selectDepartmentsByDivision" parameterType="string" resultType="com.example.web.project.model.Organization">
+        SELECT
+            organization_id as organizationId,
+            organization_name as organizationName,
+            upper_organization as upperOrganization
+        FROM
+            Organization
+        WHERE
+            upper_organization = #{divisionId}
+        ORDER BY
+            organization_id
+    </select>
+
+    <!-- 組織IDから組織情報を取得するSQL -->
+    <select id="selectOrganizationById" parameterType="string" resultType="com.example.web.project.model.Organization">
+        SELECT
+            organization_id as organizationId,
+            organization_name as organizationName,
+            upper_organization as upperOrganization
+        FROM
+            Organization
+        WHERE
+            organization_id = #{organizationId}
+    </select>
+    
+</mapper>
