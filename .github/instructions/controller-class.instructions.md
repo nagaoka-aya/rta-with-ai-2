@@ -58,3 +58,26 @@ public class ProjectCreateController {
     }
 }
 ```
+
+## コントローラの複数ボタン対応方針
+
+フォーム内の複数ボタン（例：戻る・登録等）は、各ボタンに`name`属性を付与し、Springコントローラの`@PostMapping`の`params`属性でメソッドを分岐すること。
+
+### 実装例
+
+#### フォームHTML
+```html
+<form action="/execute" method="post">
+  <button type="submit" name="back">戻る</button>
+  <button type="submit" name="submit">登録</button>
+</form>
+```
+
+#### コントローラ
+```java
+@PostMapping(path = "execute", params = "back")
+public String back(ProjectCreateForm form) { ... }
+
+@PostMapping(path = "execute", params = "submit")
+public String submit(ProjectCreateForm form) { ... }
+```java

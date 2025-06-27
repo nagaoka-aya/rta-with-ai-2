@@ -13,13 +13,13 @@
 </head>
 
 <body class="container">
-  <span></span>
+  <span th:if="${errorMessage}" th:text="${errorMessage}"></span>
   <div class="row mb-4">
     <div class="col">
       <div class="fs-2 fw-bold">プロジェクト登録確認</div>
     </div>
   </div>
-  <form method="POST" action="./complete.html">
+  <form method="POST" th:action="@{/project/create/register}">
     <span class="text-danger fw-bold"></span>
     <div class="row mb-3">
       <div class="col-6">
