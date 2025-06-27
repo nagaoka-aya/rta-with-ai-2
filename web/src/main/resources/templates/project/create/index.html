@@ -19,16 +19,15 @@
       <div class="fs-2 fw-bold">プロジェクト登録</div>
     </div>
   </div>
-  <form method="POST" th:action="@{/project/create/confirm}">
+  <form method="POST" th:action="@{/project/create/confirm}" th:object="${projectCreateForm}">
     <span class="text-danger fw-bold"></span>
     <div class="row mb-3">
       <div class="col-6">
         <label for="divisionId" class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
+        <select class="form-select" id="divisionId" th:field="*{divisionId}">
+          <option value="">選択してください</option>
+          <option th:each="division : ${divisions}" th:value="${division.organizationId}"
+            th:text="${division.organizationName}">事業部名</option>
         </select>
         <span class="invalid-feedback"></span>
       </div>
@@ -51,20 +50,24 @@
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectType" class="form-label fw-bold">PJ種別<span class="fw-6 text-danger">*</span></label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
+        <select class="form-select" id="projectType" th:field="*{projectType}">
+          <option value="">選択してください</option>
+          <option th:each="codeValue : ${@codeViewHelper.getValues('C0300001','pattern01')}" th:value="${codeValue}"
+            th:text="${@codeViewHelper.getName('C0300001',codeValue)}">種別名</option>
         </select>
         <span class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectClass" class="form-label fw-bold">PJ分類<span class="fw-6 text-danger">*</span></label>
         <div>
-          <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" />
-            <label class="form-check-label">SS</label>
+          <div>
+            <divAdd commentMore actions class="form-check form-check-inline"
+              th:each="codeValue : ${@codeViewHelper.getValues('C0200001','pattern01')}"
+              th:classappend="${#fields.hasErrors('projectClass')} ? 'is-invalid' : ''">
+              <input type="radio" class="form-check-input" th:field="*{projectClass}" th:value="${codeValue}"
+                th:errorclass="is-invalid" />
+              <label th:for="${#ids.prev('projectClass')}" class="form-check-label"
+                th:text="${@codeViewHelper.getName('C0200001',codeValue)}">SS</label>
           </div>
           <span class="invalid-feedback"></span>
         </div>
@@ -104,13 +107,14 @@
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectStartDate" class="form-label fw-bold">開始日<span class="fw-6 text-danger">*</span></label>
-        <input type="date" placeholder="開始日" class="form-control" />
+        <input type="date" placeholder="開始日" class="form-control" id="projectStartDate"
+          th:field="*{projectStartDate}" />
         <span class="invalid-feedback"></span>
         <span class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectEndDate" class="form-label fw-bold">終了日<span class="fw-6 text-danger">*</span></label>
-        <input type="date" placeholder="終了日" class="form-control" />
+        <input type="date" placeholder="終了日" class="form-control" id="projectEndDate" th:field="*{projectEndDate}" />
         <span class="invalid-feedback"></span>
       </div>
     </div>

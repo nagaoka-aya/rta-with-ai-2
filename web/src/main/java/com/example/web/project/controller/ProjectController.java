@@ -1,11 +1,17 @@
 package com.example.web.project.controller;
 
+import com.example.web.project.dto.OrganizationDto;
 import com.example.web.project.form.ProjectCreateForm;
+import com.example.web.project.service.ProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * プロジェクト管理コントローラー
@@ -14,10 +20,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/project")
 public class ProjectController {
 
+    @Autowired
+    private ProjectService projectService;
+
+    /**
+     * 事業部一覧を取得する（全てのリクエストで共通データとして提供）
+     *
+     * @return 事業部一覧
+     */
+    @ModelAttribute("divisions")
+    public List<OrganizationDto> getDivisions() {
+        return projectService.searchOrganizations(null);
+    }
+
     /**
      * プロジェクト登録画面表示
      *
      * @param form プロジェクト登録フォーム
+     * @param model モデル
      * @return プロジェクト登録画面
      */
     @GetMapping("/create")

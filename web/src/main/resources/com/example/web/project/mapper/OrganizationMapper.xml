@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.web.project.mapper.OrganizationMapper">
+
+    <!-- 上位組織IDを条件に組織一覧を取得 -->
+    <select id="selectOrganizationsByUpperId" resultType="com.example.common.generated.model.Organization">
+        SELECT
+            organization_id,
+            organization_name,
+            upper_organization
+        FROM
+            organization
+        <where>
+            <if test="upperOrganizationId == null">
+                upper_organization IS NULL
+            </if>
+            <if test="upperOrganizationId != null">
+                upper_organization = #{upperOrganizationId}
+            </if>
+        </where>
+        ORDER BY
+            organization_name
+    </select>
+
+</mapper>
