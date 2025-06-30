@@ -4,12 +4,15 @@ import com.example.web.project.dto.OrganizationDto;
 import com.example.web.project.form.ProjectCreateForm;
 import com.example.web.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -31,6 +34,19 @@ public class ProjectController {
     @ModelAttribute("divisions")
     public List<OrganizationDto> getDivisions() {
         return projectService.searchOrganizations(null);
+    }
+
+    /**
+     * 部門一覧を取得する（Ajax用）
+     *
+     * @param divisionId 事業部ID
+     * @return 部門一覧のJSONレスポンス
+     */
+    @GetMapping("/departments")
+    @ResponseBody
+    public ResponseEntity<List<OrganizationDto>> getDepartments(@RequestParam("divisionId") Integer divisionId) {
+        List<OrganizationDto> departments = projectService.searchOrganizations(divisionId);
+        return ResponseEntity.ok(departments);
     }
 
     /**

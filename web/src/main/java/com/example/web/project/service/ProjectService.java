@@ -24,7 +24,7 @@ public class ProjectService {
      * @param upperOrganizationId 上位組織ID（nullの場合は事業部一覧を取得）
      * @return 組織一覧
      */
-    public List<OrganizationDto> searchOrganizations(String upperOrganizationId) {
+    public List<OrganizationDto> searchOrganizations(Integer upperOrganizationId) {
         List<Organization> organizations = organizationMapper.selectOrganizationsByUpperId(upperOrganizationId);
         
         return organizations.stream()
@@ -40,7 +40,7 @@ public class ProjectService {
      */
     private OrganizationDto convertToDto(Organization organization) {
         OrganizationDto dto = new OrganizationDto();
-        dto.setOrganizationId(String.valueOf(organization.getOrganizationId()));
+        dto.setOrganizationId(organization.getOrganizationId());
         dto.setOrganizationName(organization.getOrganizationName());
         return dto;
     }

@@ -15,7 +15,7 @@
                 upper_organization IS NULL
             </if>
             <if test="upperOrganizationId != null">
-                upper_organization = #{upperOrganizationId}
+                upper_organization = #{upperOrganizationId,jdbcType=INTEGER}
             </if>
         </where>
         ORDER BY

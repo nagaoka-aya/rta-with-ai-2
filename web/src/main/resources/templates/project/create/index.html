@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{common/layout :: layout(~{:: title}, ~{:: body/content()}, true)}"
+<html th:replace="~{common/layout :: layout(~{:: title}, ~{:: body/content()}, true, ~{:: additionalScripts})}"
   xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -10,6 +10,11 @@
   <script src="../../../static/js/bootstrap.bundle.min.js"></script>
   <script src="../../../static/js/common.js"></script>
   <title>プロジェクト登録</title>
+
+  <!--/* 画面固有のJavaScriptファイル */-->
+  <th:block th:fragment="additionalScripts">
+    <script th:src="@{/js/project/create.js}" src="../../static/js/project/create.js" defer></script>
+  </th:block>
 </head>
 
 <body class="container">
@@ -24,104 +29,110 @@
     <div class="row mb-3">
       <div class="col-6">
         <label for="divisionId" class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></label>
-        <select class="form-select" id="divisionId" th:field="*{divisionId}">
+        <select class="form-select" id="divisionId" th:field="*{divisionId}" th:errorclass="is-invalid">
           <option value="">選択してください</option>
           <option th:each="division : ${divisions}" th:value="${division.organizationId}"
             th:text="${division.organizationName}">事業部名</option>
         </select>
-        <span class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('divisionId')}" th:errors="*{divisionId}" class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="organizationId" class="form-label">&nbsp;</label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
+        <select class="form-select" id="organizationId" th:field="*{organizationId}" th:errorclass="is-invalid">
+          <option value="">選択してください</option>
         </select>
-        <span class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('organizationId')}" th:errors="*{organizationId}"
+          class="invalid-feedback"></span>
       </div>
     </div>
     <div class="col mb-3">
       <label for="projectName" class="form-label fw-bold">PJ名<span class="fw-6 text-danger">*</span></label>
-      <input type="text" placeholder="PJ名" class="form-control" maxlength="128" />
-      <span class="invalid-feedback"></span>
+      <input type="text" id="projectName" th:field="*{projectName}" placeholder="PJ名" class="form-control"
+        th:errorclass="is-invalid" maxlength="128" />
+      <span th:if="${#fields.hasErrors('projectName')}" th:errors="*{projectName}" class="invalid-feedback"></span>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectType" class="form-label fw-bold">PJ種別<span class="fw-6 text-danger">*</span></label>
-        <select class="form-select" id="projectType" th:field="*{projectType}">
+        <select class="form-select" id="projectType" th:field="*{projectType}" th:errorclass="is-invalid">
           <option value="">選択してください</option>
           <option th:each="codeValue : ${@codeViewHelper.getValues('C0300001','pattern01')}" th:value="${codeValue}"
             th:text="${@codeViewHelper.getName('C0300001',codeValue)}">種別名</option>
         </select>
-        <span class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('projectType')}" th:errors="*{projectType}" class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectClass" class="form-label fw-bold">PJ分類<span class="fw-6 text-danger">*</span></label>
         <div>
-          <div>
-            <divAdd commentMore actions class="form-check form-check-inline"
-              th:each="codeValue : ${@codeViewHelper.getValues('C0200001','pattern01')}"
-              th:classappend="${#fields.hasErrors('projectClass')} ? 'is-invalid' : ''">
-              <input type="radio" class="form-check-input" th:field="*{projectClass}" th:value="${codeValue}"
-                th:errorclass="is-invalid" />
-              <label th:for="${#ids.prev('projectClass')}" class="form-check-label"
-                th:text="${@codeViewHelper.getName('C0200001',codeValue)}">SS</label>
+          <div class="form-check form-check-inline"
+            th:each="codeValue : ${@codeViewHelper.getValues('C0200001','pattern01')}"
+            th:classappend="${#fields.hasErrors('projectClass')} ? 'is-invalid' : ''">
+            <input type="radio" class="form-check-input" th:field="*{projectClass}" th:value="${codeValue}"
+              th:errorclass="is-invalid" />
+            <label th:for="${#ids.prev('projectClass')}" class="form-check-label"
+              th:text="${@codeViewHelper.getName('C0200001',codeValue)}">SS</label>
           </div>
-          <span class="invalid-feedback"></span>
+          <span th:if="${#fields.hasErrors('projectClass')}" th:errors="*{projectClass}"
+            class="invalid-feedback"></span>
         </div>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="sales" class="form-label fw-bold">売上高(千円)</label>
-        <input type="text" placeholder="売上高" class="form-control" maxlength="9" />
-        <span class="invalid-feedback"></span>
+        <input type="text" id="sales" th:field="*{sales}" placeholder="売上高" class="form-control"
+          th:errorclass="is-invalid" maxlength="9" />
+        <span th:if="${#fields.hasErrors('sales')}" th:errors="*{sales}" class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="clientId" class="form-label fw-bold">顧客<span class="fw-6 text-danger">*</span></label>
         <div class="input-group">
           <input type="text" id="clientName" placeholder="顧客" class="form-control" readonly="readonly" />
-          <input type="hidden" id="clientId" />
+          <input type="hidden" id="clientId" th:field="*{clientId}" />
           <!--/* 顧客選択サブウィンドウを起動する（data-bs属性でbootstrapのモーダル機能を設定） */-->
           <button type="button" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#clientModal">
             選択
           </button>
-          <span class="invalid-feedback"></span>
+          <span th:if="${#fields.hasErrors('clientId')}" th:errors="*{clientId}" class="invalid-feedback"></span>
         </div>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectManager" class="form-label fw-bold">PM<span class="fw-6 text-danger">*</span></label>
-        <input type="text" placeholder="PM" class="form-control" maxlength="128" />
-        <span class="invalid-feedback"></span>
+        <input type="text" id="projectManager" th:field="*{projectManager}" placeholder="PM" class="form-control"
+          th:errorclass="is-invalid" maxlength="128" />
+        <span th:if="${#fields.hasErrors('projectManager')}" th:errors="*{projectManager}"
+          class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectLeader" class="form-label fw-bold">PL<span class="fw-6 text-danger">*</span></label>
-        <input type="text" placeholder="PL" class="form-control" maxlength="128" />
-        <span class="invalid-feedback"></span>
+        <input type="text" id="projectLeader" th:field="*{projectLeader}" placeholder="PL" class="form-control"
+          th:errorclass="is-invalid" maxlength="128" />
+        <span th:if="${#fields.hasErrors('projectLeader')}" th:errors="*{projectLeader}"
+          class="invalid-feedback"></span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectStartDate" class="form-label fw-bold">開始日<span class="fw-6 text-danger">*</span></label>
-        <input type="date" placeholder="開始日" class="form-control" id="projectStartDate"
-          th:field="*{projectStartDate}" />
-        <span class="invalid-feedback"></span>
-        <span class="invalid-feedback"></span>
+        <input type="date" placeholder="開始日" class="form-control" id="projectStartDate" th:field="*{projectStartDate}"
+          th:errorclass="is-invalid" />
+        <span th:if="${#fields.hasErrors('projectStartDate')}" th:errors="*{projectStartDate}"
+          class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectEndDate" class="form-label fw-bold">終了日<span class="fw-6 text-danger">*</span></label>
-        <input type="date" placeholder="終了日" class="form-control" id="projectEndDate" th:field="*{projectEndDate}" />
-        <span class="invalid-feedback"></span>
+        <input type="date" placeholder="終了日" class="form-control" id="projectEndDate" th:field="*{projectEndDate}"
+          th:errorclass="is-invalid" />
+        <span th:if="${#fields.hasErrors('projectEndDate')}" th:errors="*{projectEndDate}"
+          class="invalid-feedback"></span>
       </div>
     </div>
     <div class="col mb-3">
       <label for="note" class="form-label fw-bold">備考</label>
-      <textarea class="form-control" maxlength="512"></textarea>
-      <span class="invalid-feedback"></span>
+      <textarea id="note" th:field="*{note}" class="form-control" th:errorclass="is-invalid" maxlength="512"></textarea>
+      <span th:if="${#fields.hasErrors('note')}" th:errors="*{note}" class="invalid-feedback"></span>
     </div>
 
     <div class="row justify-content-center pt-4">

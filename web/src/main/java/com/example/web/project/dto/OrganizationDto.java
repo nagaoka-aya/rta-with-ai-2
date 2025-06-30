@@ -6,7 +6,7 @@ package com.example.web.project.dto;
 public class OrganizationDto {
 
     /** 組織ID */
-    private String organizationId;
+    private Integer organizationId;
 
     /** 組織名 */
     private String organizationName;
@@ -15,7 +15,7 @@ public class OrganizationDto {
      * 組織IDを取得する
      * @return 組織ID
      */
-    public String getOrganizationId() {
+    public Integer getOrganizationId() {
         return organizationId;
     }
 
@@ -23,7 +23,7 @@ public class OrganizationDto {
      * 組織IDを設定する
      * @param organizationId 組織ID
      */
-    public void setOrganizationId(String organizationId) {
+    public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
 

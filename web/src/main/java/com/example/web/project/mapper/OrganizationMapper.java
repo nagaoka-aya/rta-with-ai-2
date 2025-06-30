@@ -17,5 +17,5 @@ public interface OrganizationMapper {
      * @param upperOrganizationId 上位組織ID（nullの場合は上位組織IDがNULLの組織を取得）
      * @return 組織一覧
      */
-    List<Organization> selectOrganizationsByUpperId(String upperOrganizationId);
+    List<Organization> selectOrganizationsByUpperId(Integer upperOrganizationId);
 }
