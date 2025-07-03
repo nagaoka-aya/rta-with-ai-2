@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{common/layout :: layout(~{:: title}, ~{:: body/content()}, false)}"
+<html th:replace="~{common/layout :: layout(~{:: title}, ~{:: body/content()}, false, ~{:: additionalScripts})}"
   xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -10,6 +10,10 @@
   <script src="../../../static/js/bootstrap.bundle.min.js"></script>
   <script src="../../../static/js/common.js"></script>
   <title>ログイン</title>
+
+  <!--/* 画面固有のJavaScriptファイル */-->
+  <th:block th:fragment="additionalScripts">
+  </th:block>
 </head>
 
 <body>
@@ -31,7 +35,8 @@
         </div>
         <div class="mb-3">
           <label for="userPassword" class="form-label fw-bold">パスワード<span class="fw-6 text-danger">*</span></label>
-          <input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="パスワード" maxlength="44"/>
+          <input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="パスワード"
+            maxlength="44" />
         </div>
         <div class="container mb-3">
           <div class="row justify-content-center">

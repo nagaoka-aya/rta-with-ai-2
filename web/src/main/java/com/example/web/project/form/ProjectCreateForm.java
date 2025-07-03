@@ -1,5 +1,9 @@
 package com.example.web.project.form;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import nablarch.core.validation.ee.Domain;
+import nablarch.core.validation.ee.Required;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -8,40 +12,86 @@ import java.time.LocalDate;
  */
 public class ProjectCreateForm {
 
-    /** 事業部ID */
+    /**
+     * 事業部ID
+     */
+    @Required
+    @Domain("organizationId")
     private String divisionId;
 
-    /** 組織ID */
+    /**
+     * 組織ID
+     */
+    @Required
+    @Domain("organizationId")
     private String organizationId;
 
-    /** プロジェクト名 */
+    /**
+     * プロジェクト名
+     */
+    @Required
+    @Domain("projectName")
     private String projectName;
 
-    /** プロジェクト種別 */
+    /**
+     * プロジェクト種別
+     */
+    @Required
+    @Domain("projectType")
     private String projectType;
 
-    /** プロジェクト分類 */
+    /**
+     * プロジェクト分類
+     */
+    @Required
+    @Domain("projectClass")
     private String projectClass;
 
-    /** 売上高 */
-    private BigDecimal sales;
+    /**
+     * 売上高
+     */
+    @Domain("amountOfMoney")
+    private Integer sales;
 
-    /** 顧客ID */
+    /**
+     * 顧客ID
+     */
+    @Required
+    @Domain("clientId")
     private String clientId;
 
-    /** プロジェクトマネージャー */
+    /**
+     * プロジェクトマネージャー
+     */
+    @Required
+    @Domain("userName")
     private String projectManager;
 
-    /** プロジェクトリーダー */
+    /**
+     * プロジェクトリーダー
+     */
+    @Required
+    @Domain("userName")
     private String projectLeader;
 
-    /** プロジェクト開始日 */
+    /**
+     * プロジェクト開始日付
+     */
+    @Required
+    @DateTimeFormat(pattern = "uuuu-MM-dd")
     private LocalDate projectStartDate;
 
-    /** プロジェクト終了日 */
+    /**
+     * プロジェクト終了日付
+     */
+    @Required
+    @DateTimeFormat(pattern = "uuuu-MM-dd")
     private LocalDate projectEndDate;
 
-    /** 備考 */
+    /**
+     * 備考
+     */
+    @Domain("note")
     private String note;
 
     // Getters and Setters
@@ -85,11 +135,11 @@ public class ProjectCreateForm {
         this.projectClass = projectClass;
     }
 
-    public BigDecimal getSales() {
+    public Integer getSales() {
         return sales;
     }
 
-    public void setSales(BigDecimal sales) {
+    public void setSales(Integer sales) {
         this.sales = sales;
     }
 

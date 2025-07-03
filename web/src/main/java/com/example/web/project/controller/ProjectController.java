@@ -3,10 +3,12 @@ package com.example.web.project.controller;
 import com.example.web.project.dto.OrganizationDto;
 import com.example.web.project.form.ProjectCreateForm;
 import com.example.web.project.service.ProjectService;
+import com.example.web.common.errorhandling.OnRejectError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,7 +71,8 @@ public class ProjectController {
      * @return プロジェクト登録確認画面
      */
     @PostMapping("/create/confirm")
-    public String confirm(ProjectCreateForm form, Model model) {
+    @OnRejectError(path = "project/create/index")
+    public String confirm(@Validated ProjectCreateForm form, BindingResult bindingResult) {
         return "project/create/confirm";
     }
 
@@ -80,7 +83,7 @@ public class ProjectController {
      * @return プロジェクト登録完了画面へリダイレクト
      */
     @PostMapping(path = "/create/register", params = "execute")
-    public String register(ProjectCreateForm form) {
+    public String register(@Validated ProjectCreateForm form, BindingResult bindingResult) {
         // TODO: 登録処理を実装
         return "redirect:/project/create/complete";
     }

@@ -31,6 +31,10 @@ applyTo: "web/src/**/*Controller.java"
 
 #### 3.6.5 実装例
 ```java
+import com.example.web.common.errorhandling.OnRejectError;
+import jp.fintan.keel.spring.web.token.transaction.TransactionTokenCheck;
+import jp.fintan.keel.spring.web.token.transaction.TransactionTokenType;
+
 @Controller
 @RequestMapping("project/create")
 @TransactionTokenCheck("project/create")
