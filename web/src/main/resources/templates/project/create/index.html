@@ -18,14 +18,14 @@
 </head>
 
 <body class="container">
-  <span th:if="${errorMessage}" th:text="${errorMessage}"></span>
+  <span th:if="${message}" th:text="${message}"></span>
   <div class="row mb-4">
     <div class="col">
       <div class="fs-2 fw-bold">プロジェクト登録</div>
     </div>
   </div>
   <form method="POST" th:action="@{/project/create/confirm}" th:object="${projectCreateForm}">
-    <span class="text-danger fw-bold"></span>
+    <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="text-danger fw-bold"></span>
     <div class="row mb-3">
       <div class="col-6">
         <label for="divisionId" class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></label>
@@ -117,15 +117,19 @@
       <div class="col-6">
         <label for="projectStartDate" class="form-label fw-bold">開始日<span class="fw-6 text-danger">*</span></label>
         <input type="date" placeholder="開始日" class="form-control" id="projectStartDate" th:field="*{projectStartDate}"
-          th:errorclass="is-invalid" />
+          th:errorclass="is-invalid" th:classappend="${#fields.hasErrors('validProjectPeriod')} ? 'is-invalid' : ''" />
         <span th:if="${#fields.hasErrors('projectStartDate')}" th:errors="*{projectStartDate}"
+          class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('validProjectPeriod')}" th:errors="*{validProjectPeriod}"
           class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectEndDate" class="form-label fw-bold">終了日<span class="fw-6 text-danger">*</span></label>
         <input type="date" placeholder="終了日" class="form-control" id="projectEndDate" th:field="*{projectEndDate}"
-          th:errorclass="is-invalid" />
+          th:errorclass="is-invalid" th:classappend="${#fields.hasErrors('validProjectPeriod')} ? 'is-invalid' : ''" />
         <span th:if="${#fields.hasErrors('projectEndDate')}" th:errors="*{projectEndDate}"
+          class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('validProjectPeriod')}" th:errors="*{validProjectPeriod}"
           class="invalid-feedback"></span>
       </div>
     </div>

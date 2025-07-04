@@ -3,6 +3,7 @@ package com.example.web.project.form;
 import org.springframework.format.annotation.DateTimeFormat;
 import nablarch.core.validation.ee.Domain;
 import nablarch.core.validation.ee.Required;
+import jakarta.validation.constraints.AssertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -189,5 +190,22 @@ public class ProjectCreateForm {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    /**
+     * プロジェクト期間の整合性をチェックする。
+     * プロジェクト開始日付≦プロジェクト終了日付であることを検証する。
+     * 
+     * @return プロジェクト期間が正しい場合はtrue、そうでなければfalse
+     */
+    @AssertTrue(message = "{validator.periodConsistencyCheck.message.ProjectCreateForm}")
+    public boolean isValidProjectPeriod() {
+        // どちらかがnullの場合は単項目バリデーションに委ねる
+        if (projectStartDate == null || projectEndDate == null) {
+            return true;
+        }
+        
+        // 開始日付≦終了日付の条件をチェック
+        return projectStartDate.isEqual(projectEndDate) || projectStartDate.isBefore(projectEndDate);
     }
 }

@@ -9,13 +9,12 @@ applyTo: "web/src/main/resources/templates/**/*.html"
 
 ## エラーの表示
 
-- 特定の項目に紐づかない業務エラーは画面上部に表示すること
+- 特定の項目に紐づかない業務エラーは入力フォーム上部に表示すること
   実装例
   ```
-  <body class="container">
-      <span th:if="${errorMessage}" th:text="${errorMessage}"></span>
-      画面レイアウト
-  </body>
+  <form method="POST" th:action="@{/xxx/yyyy}" action="./xxxx.html" th:object="${xxxxForm}">
+      <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="text-danger fw-bold"></span>
+  </form>
   ```
 - 単項目精査エラー、相関精査エラーの場合は、該当の項目に`is-invalid`クラスを付与すること。また、該当項目の直下に`invalid-feedback`クラスのエラーメッセージを表示すること
   実装例
