@@ -23,67 +23,89 @@
       <div class="fs-2 fw-bold">プロジェクト登録確認</div>
     </div>
   </div>
-  <form method="POST" th:action="@{/project/create/register}">
+  <form method="POST" th:action="@{/project/create/register}" th:object="${projectCreateForm}">
+    <input type="hidden" th:field="*{divisionId}" />
+    <input type="hidden" th:field="*{organizationId}" />
+    <input type="hidden" th:field="*{projectName}" />
+    <input type="hidden" th:field="*{projectType}" />
+    <input type="hidden" th:field="*{projectClass}" />
+    <input type="hidden" th:field="*{sales}" />
+    <input type="hidden" th:field="*{clientId}" />
+    <input type="hidden" th:field="*{projectManager}" />
+    <input type="hidden" th:field="*{projectLeader}" />
+    <input type="hidden" th:field="*{projectStartDate}" />
+    <input type="hidden" th:field="*{projectEndDate}" />
+    <input type="hidden" th:field="*{note}" />
+
     <span class="text-danger fw-bold"></span>
     <div class="row mb-3">
       <div class="col-6">
         <span class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">A事業部</span>
+        <span class="form-control-plaintext"
+          th:text="${@projectViewHelper.getOrganizationName(projectCreateForm.divisionId)}">A事業部</span>
       </div>
       <div class="col-6">
         <span class="form-label">&nbsp;</span>
-        <span class="form-control-plaintext">C部門</span>
+        <span class="form-control-plaintext"
+          th:text="${@projectViewHelper.getOrganizationName(projectCreateForm.organizationId)}">C部門</span>
       </div>
     </div>
     <div class="col mb-3">
       <span class="form-label fw-bold">PJ名<span class="fw-6 text-danger">*</span></span>
-      <span class="form-control-plaintext">○○プロジェクト</span>
+      <span class="form-control-plaintext" th:text="*{projectName}">○○プロジェクト</span>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <span class="form-label fw-bold">PJ種別<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">新規開発PJ</span>
+        <span class="form-control-plaintext"
+          th:text="${@codeViewHelper.getName('C0200001', projectCreateForm.projectType)}">新規開発PJ</span>
       </div>
       <div class="col-6">
         <span class="form-label fw-bold">PJ分類<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">SS</span>
+        <span class="form-control-plaintext"
+          th:text="${@codeViewHelper.getName('C0300001', projectCreateForm.projectClass)}">SS</span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <span class="form-label fw-bold">売上高(千円)</span>
-        <span class="form-control-plaintext">15,000</span>
+        <span class="form-control-plaintext"
+          th:text="${projectCreateForm.sales != null ? #numbers.formatDecimal(projectCreateForm.sales, 1, 'COMMA', 0, 'POINT') : ''}">15,000</span>
       </div>
       <div class="col-6">
         <span class="form-label fw-bold">顧客<span class="fw-6 text-danger">*</span></span>
         <div class="input-group">
-          <span class="form-control-plaintext">0</span>
+          <span class="form-control-plaintext"
+            th:text="${@projectViewHelper.getClientName(projectCreateForm.clientId)}">0</span>
         </div>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <span class="form-label fw-bold">PM<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">プロジェクトマネージャ</span>
+        <span class="form-control-plaintext" th:text="*{projectManager}">プロジェクトマネージャ</span>
       </div>
       <div class="col-6">
         <span class="form-label fw-bold">PL<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">プロジェクトリーダー</span>
+        <span class="form-control-plaintext" th:text="*{projectLeader}">プロジェクトリーダー</span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <span class="form-label fw-bold">開始日<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">2022年1月1日</span>
+        <span class="form-control-plaintext"
+          th:text="${projectCreateForm.projectStartDate != null ? #temporals.format(projectCreateForm.projectStartDate, 'yyyy/MM/dd') : ''}">2022年1月1日</span>
       </div>
       <div class="col-6">
         <span class="form-label fw-bold">終了日<span class="fw-6 text-danger">*</span></span>
-        <span class="form-control-plaintext">2023年1月1日</span>
+        <span class="form-control-plaintext"
+          th:text="${projectCreateForm.projectEndDate != null ? #temporals.format(projectCreateForm.projectEndDate, 'yyyy/MM/dd') : ''}">2023年1月1日</span>
       </div>
     </div>
     <div class="col mb-3">
       <span class="form-label fw-bold">備考</span>
-      <span class="form-control-plaintext">備考欄</span>
+      <span class="form-control-plaintext"
+        th:utext="${@projectViewHelper.convertLineBreakToHtml(projectCreateForm.note)}">備考欄</span>
     </div>
     <div class="row justify-content-center pt-4">
       <div class="col-2">
