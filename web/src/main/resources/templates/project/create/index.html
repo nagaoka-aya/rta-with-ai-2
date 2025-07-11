@@ -13,6 +13,13 @@
 
   <!--/* 画面固有のJavaScriptファイル */-->
   <th:block th:fragment="additionalScripts">
+    <!-- サーバーサイドデータをJavaScriptに渡す -->
+    <script th:inline="javascript">
+      window.formData = {
+        divisionId: /*[[${projectCreateForm.divisionId}]]*/ '',
+        organizationId: /*[[${projectCreateForm.organizationId}]]*/ ''
+      };
+    </script>
     <script th:src="@{/js/project/create.js}" src="../../static/js/project/create.js" defer></script>
   </th:block>
 </head>
@@ -87,7 +94,8 @@
       <div class="col-6">
         <label for="clientId" class="form-label fw-bold">顧客<span class="fw-6 text-danger">*</span></label>
         <div class="input-group">
-          <input type="text" id="clientName" placeholder="顧客" class="form-control" readonly="readonly" />
+          <input type="text" id="clientName" placeholder="顧客" class="form-control" readonly="readonly"
+            th:value="${projectCreateForm.clientId != null ? @projectViewHelper.getClientName(projectCreateForm.clientId) : ''}" />
           <input type="hidden" id="clientId" th:field="*{clientId}" />
           <!--/* 顧客選択サブウィンドウを起動する（data-bs属性でbootstrapのモーダル機能を設定） */-->
           <button type="button" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#clientModal">
