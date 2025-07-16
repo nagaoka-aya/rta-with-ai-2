@@ -24,6 +24,8 @@
     </div>
   </div>
   <form method="POST" th:action="@{/project/create/register}" th:object="${projectCreateForm}">
+    <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="text-danger fw-bold"></span>
+
     <input type="hidden" th:field="*{divisionId}" />
     <input type="hidden" th:field="*{organizationId}" />
     <input type="hidden" th:field="*{projectName}" />
@@ -37,7 +39,6 @@
     <input type="hidden" th:field="*{projectEndDate}" />
     <input type="hidden" th:field="*{note}" />
 
-    <span class="text-danger fw-bold"></span>
     <div class="row mb-3">
       <div class="col-6">
         <span class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></span>

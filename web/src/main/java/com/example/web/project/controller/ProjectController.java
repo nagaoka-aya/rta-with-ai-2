@@ -18,31 +18,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+import jp.fintan.keel.spring.web.token.transaction.TransactionTokenCheck;
+import jp.fintan.keel.spring.web.token.transaction.TransactionTokenType;
+
 /**
- * プロジェクト管理コントローラー
+ * プロジェクト登録コントローラー
  */
 @Controller
 @RequestMapping("/project")
+@TransactionTokenCheck("project/create")
 public class ProjectController {
-
+    
     @Autowired
     private ProjectService projectService;
-
+    
     /**
-     * 事業部一覧を取得する（全てのリクエストで共通データとして提供）
-     *
+     * 事業部一覧を取得する
      * @return 事業部一覧
      */
     @ModelAttribute("divisions")
     public List<OrganizationDto> getDivisions() {
         return projectService.searchOrganizations(null);
     }
-
+    
     /**
-     * 部門一覧を取得する（Ajax用）
-     *
+     * 登録画面を表示する
+     * @param form フォーム
+     * @return テンプレートパス
+     */
+    @GetMapping("/create")
+    public String create(ProjectCreateForm form) {
+        return "project/create/index";
+    }
+    
+    /**
+     * 部門一覧を取得する
      * @param divisionId 事業部ID
-     * @return 部門一覧のJSONレスポンス
+     * @return 部門一覧
      */
     @GetMapping("/departments")
     @ResponseBody
@@ -50,59 +62,47 @@ public class ProjectController {
         List<OrganizationDto> departments = projectService.searchOrganizations(divisionId);
         return ResponseEntity.ok(departments);
     }
-
+    
     /**
-     * プロジェクト登録画面表示
-     *
-     * @param form プロジェクト登録フォーム
-     * @param model モデル
-     * @return プロジェクト登録画面
-     */
-    @GetMapping("/create")
-    public String create(ProjectCreateForm form) {
-        return "project/create/index";
-    }
-
-    /**
-     * プロジェクト登録確認画面表示
-     *
-     * @param form プロジェクト登録フォーム
-     * @param model モデル
-     * @return プロジェクト登録確認画面
+     * 確認画面を表示する
+     * @param form フォーム
+     * @param result バリデーション結果
+     * @return テンプレートパス
      */
     @PostMapping("/create/confirm")
+    @TransactionTokenCheck(type = TransactionTokenType.BEGIN)
     @OnRejectError(path = "project/create/index")
-    public String confirm(@Validated ProjectCreateForm form, BindingResult bindingResult) {
+    public String confirm(@Validated ProjectCreateForm form, BindingResult result) {
         return "project/create/confirm";
     }
-
+    
     /**
-     * プロジェクト登録処理
-     *
-     * @param form プロジェクト登録フォーム
-     * @return プロジェクト登録完了画面へリダイレクト
+     * プロジェクトを登録する
+     * @param form フォーム
+     * @param result バリデーション結果
+     * @return リダイレクトパス
      */
     @PostMapping(path = "/create/register", params = "execute")
-    public String register(@Validated ProjectCreateForm form, BindingResult bindingResult) {
-        // TODO: 登録処理を実装
+    @TransactionTokenCheck(type = TransactionTokenType.CHECK)
+    @OnRejectError(path = "project/create/confirm")
+    public String register(@Validated ProjectCreateForm form, BindingResult result) {
+        projectService.createProject(form.toProjectDto());
         return "redirect:/project/create/complete";
     }
-
+    
     /**
-     * プロジェクト登録画面へ戻る
-     *
-     * @param form プロジェクト登録フォーム
-     * @return プロジェクト登録画面
+     * 登録画面に戻る
+     * @param form フォーム
+     * @return テンプレートパス
      */
     @PostMapping(path = "/create/register", params = "back")
     public String back(ProjectCreateForm form) {
         return "project/create/index";
     }
-
+    
     /**
-     * プロジェクト登録完了画面表示
-     *
-     * @return プロジェクト登録完了画面
+     * 完了画面を表示する
+     * @return テンプレートパス
      */
     @GetMapping("/create/complete")
     public String complete() {

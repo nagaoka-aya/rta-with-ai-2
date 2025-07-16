@@ -1,114 +1,116 @@
 package com.example.web.project.form;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import nablarch.core.validation.ee.Domain;
-import nablarch.core.validation.ee.Required;
-import jakarta.validation.constraints.AssertTrue;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import nablarch.core.validation.ee.Domain;
+import nablarch.core.validation.ee.Required;
+import com.example.web.project.dto.ProjectDto;
+
+import jakarta.validation.constraints.AssertTrue;
+
 /**
- * プロジェクト登録フォーム
+ * プロジェクト作成フォーム
  */
 public class ProjectCreateForm {
-
-    /**
-     * 事業部ID
-     */
+    
+    /** 事業部ID */
     @Required
     @Domain("organizationId")
-    private String divisionId;
-
-    /**
-     * 組織ID
-     */
+    private Integer divisionId;
+    
+    /** 組織ID */
     @Required
     @Domain("organizationId")
-    private String organizationId;
-
-    /**
-     * プロジェクト名
-     */
+    private Integer organizationId;
+    
+    /** プロジェクト名 */
     @Required
     @Domain("projectName")
     private String projectName;
-
-    /**
-     * プロジェクト種別
-     */
+    
+    /** プロジェクト種別 */
     @Required
     @Domain("projectType")
     private String projectType;
-
-    /**
-     * プロジェクト分類
-     */
+    
+    /** プロジェクト分類 */
     @Required
     @Domain("projectClass")
     private String projectClass;
-
-    /**
-     * 売上高
-     */
+    
+    /** 売上高 */
     @Domain("amountOfMoney")
     private Integer sales;
-
-    /**
-     * 顧客ID
-     */
+    
+    /** 顧客ID */
     @Required
     @Domain("clientId")
-    private String clientId;
-
-    /**
-     * プロジェクトマネージャー
-     */
+    private Integer clientId;
+    
+    /** プロジェクトマネージャー */
     @Required
     @Domain("userName")
     private String projectManager;
-
-    /**
-     * プロジェクトリーダー
-     */
+    
+    /** プロジェクトリーダー */
     @Required
     @Domain("userName")
     private String projectLeader;
-
-    /**
-     * プロジェクト開始日付
-     */
+    
+    /** プロジェクト開始日付 */
     @Required
     @DateTimeFormat(pattern = "uuuu-MM-dd")
     private LocalDate projectStartDate;
-
-    /**
-     * プロジェクト終了日付
-     */
+    
+    /** プロジェクト終了日付 */
     @Required
     @DateTimeFormat(pattern = "uuuu-MM-dd")
     private LocalDate projectEndDate;
-
-    /**
-     * 備考
-     */
+    
+    /** 備考 */
     @Domain("note")
     private String note;
+    
+    /**
+     * プロジェクト期間の整合性チェック
+     * @return 開始日≦終了日の場合はtrue
+     */
+    @AssertTrue(message = "{validator.periodConsistencyCheck.message.ProjectCreateForm}")
+    public boolean isValidProjectPeriod() {
+        if (projectStartDate == null || projectEndDate == null) {
+            return true;
+        }
+        return projectStartDate.isEqual(projectEndDate) || projectStartDate.isBefore(projectEndDate);
+    }
+    
+    /**
+     * ProjectDtoに変換する
+     * @return ProjectDto
+     */
+    public ProjectDto toProjectDto() {
+        ProjectDto dto = new ProjectDto();
+        BeanUtils.copyProperties(this, dto);
+        return dto;
+    }
 
     // Getters and Setters
-    public String getDivisionId() {
+    public Integer getDivisionId() {
         return divisionId;
     }
 
-    public void setDivisionId(String divisionId) {
+    public void setDivisionId(Integer divisionId) {
         this.divisionId = divisionId;
     }
 
-    public String getOrganizationId() {
+    public Integer getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(String organizationId) {
+    public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
 
@@ -144,11 +146,11 @@ public class ProjectCreateForm {
         this.sales = sales;
     }
 
-    public String getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
-    public void setClientId(String clientId) {
+    public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 
@@ -190,22 +192,5 @@ public class ProjectCreateForm {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    /**
-     * プロジェクト期間の整合性をチェックする。
-     * プロジェクト開始日付≦プロジェクト終了日付であることを検証する。
-     * 
-     * @return プロジェクト期間が正しい場合はtrue、そうでなければfalse
-     */
-    @AssertTrue(message = "{validator.periodConsistencyCheck.message.ProjectCreateForm}")
-    public boolean isValidProjectPeriod() {
-        // どちらかがnullの場合は単項目バリデーションに委ねる
-        if (projectStartDate == null || projectEndDate == null) {
-            return true;
-        }
-        
-        // 開始日付≦終了日付の条件をチェック
-        return projectStartDate.isEqual(projectEndDate) || projectStartDate.isBefore(projectEndDate);
     }
 }
