@@ -1,9 +1,11 @@
 ---
 mode: 'ask'
+model: Claude Sonnet 4
+tools: ['codebase']
 description: '実装計画を生成するためのプロンプトテンプレート'
 ---
 
-実装計画の${input:phase}のみ実装計画をより詳細にしてください。2. クラス図と3. シーケンス図と矛盾が生じないように詳細化してください。
+実装計画の${input:goal}のみ実装計画をより詳細にしてください。2. クラス図と3. シーケンス図と矛盾が生じないように詳細化してください。
 
 ## **守るべき実装ルール**
 * [controller-class.instructions.md](../instructions/controller-class.instructions.md)
@@ -38,9 +40,6 @@ description: '実装計画を生成するためのプロンプトテンプレー
 - **編集対象のメソッド:** `AuthController#login()` など  
 - **目的:** シーケンス図のどの部分を実装しようとしているか。何を達成しようとしているか。 
 - **内容:** どのように実装を進めるか（具体的な指示）  
-- **活用するクラス・メソッド:** パッケージ名付きで  
-  - `my.pj.package.UserService#getUserById(userId: String): User` を利用  
-  - `my.pj.package.Logger#info(message: String)` でログを記録  
 - **ポイント:** 注意点や考慮すべき点  
 
 HTMLは既に実装されていますが、修正が必要であればタスクに追加してください。
