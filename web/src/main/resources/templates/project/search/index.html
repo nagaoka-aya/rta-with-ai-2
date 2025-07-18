@@ -51,21 +51,27 @@
     <div class="row mb-3">
       <div class="col">
         <div class="form-label fw-bold">PJ種別</div>
-        <div class="form-check form-check-inline">
-          <input type="checkbox" class="form-check-input" />
-          <label class="form-check-label">SS</label>
+        <div class="form-check form-check-inline" th:each="codeValue : ${@codeViewHelper.getValues('C0300001','pattern01')}
+          " th:classappend="${#fields.hasErrors('projectType')} ? 'is-invalid' : ''">
+          <input type="checkbox" class="form-check-input" th:field="*{projectType}" th:value="${codeValue}"
+            th:errorclass="is-invalid" />
+          <label th:for="${#ids.prev('projectType')}" class="form-check-label"
+            th:text="${@codeViewHelper.getName('C0300001',codeValue)}">SS</label>
         </div>
-        <span class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('projectType')}" th:errors="*{projectType}" class="invalid-feedback"></span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <div class="form-label fw-bold">PJ分類</div>
-        <div class="form-check form-check-inline">
-          <input type="checkbox" class="form-check-input" />
-          <label class="form-check-label">SS</label>
+        <div class="form-check form-check-inline" th:each="codeValue : ${@codeViewHelper.getValues('C0200001','pattern01')}
+          " th:classappend="${#fields.hasErrors('projectClass')} ? 'is-invalid' : ''">
+          <input type="checkbox" class="form-check-input" th:field="*{projectClass}" th:value="${codeValue}"
+            th:errorclass="is-invalid" />
+          <label th:for="${#ids.prev('projectClass')}" class="form-check-label"
+            th:text="${@codeViewHelper.getName('C0200001',codeValue)}">SS</label>
         </div>
-        <span class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('projectClass')}" th:errors="*{projectClass}" class="invalid-feedback"></span>
       </div>
     </div>
     <div class="row mb-3">
