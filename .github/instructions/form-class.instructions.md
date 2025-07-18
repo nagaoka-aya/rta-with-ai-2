@@ -10,7 +10,7 @@ applyTo: "web/src/**/*Form.java"
 
 #### 3.5.2 バリデーション
 - 必須チェックには@Requiredアノテーションを使用
-- ドメインバリデーションには@Domainアノテーションを使用( ドメインの定義は #file:common\src\main\java\com\example\common\nablarch\validation\DomainBean.java 参照)
+- ドメインバリデーションには@Domainアノテーションを使用( ドメインの定義は[DomainBean.java](../../common/src/main/java/com/example/common/nablarch/validation/DomainBean.java) 参照)
 - 日付項目には@DateTimeFormatで形式を指定
 - 項目間の相関チェックは@AssertTrueで実装
 

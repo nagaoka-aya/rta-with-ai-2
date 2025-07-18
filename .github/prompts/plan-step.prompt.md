@@ -12,10 +12,15 @@ description: '実装計画を生成するためのプロンプトテンプレー
 * [form-class.instructions.md](../instructions/form-class.instructions.md)
 * [html.instructions.md](../instructions/html.instructions.md)
 
+## **リファレンス**
+- [DBスキーマ](../../web/docs/schema.sql)
+   DBの操作を実装する際はDBスキーマを参考にすること
+
 ### **条件**  
 1. **段階的な実装計画:**  
    - 依存関係を考慮し、どの順番で実装するか明確にしてください。  
-   - 完了条件を忠実に守ってください
+   - 完了条件に必要最低限の実装計画にしてください
+   - 別のゴールで実装すべきものを含めないでください
 
 2. **既存のクラス・メソッドの活用:**  
    - プロジェクト内にすでに存在するクラスやメソッドを積極的に活用してください。  
@@ -33,7 +38,7 @@ description: '実装計画を生成するためのプロンプトテンプレー
 
 
 5. **フォーマット:**  
-### Phase X: [機能名]
+### GOAL X: [機能名]
 - **完了条件**: [具体的にテスト可能な条件] 
 #### ステップ X: [処理名]  
 - **編集対象ファイル:** `src/controllers/UserController.java` など  
