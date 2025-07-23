@@ -28,23 +28,21 @@
     <div class="row mb-3">
       <div class="col-6">
         <label for="divisionId" class="form-label fw-bold">事業部</label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
+        <select id="divisionId" th:field="*{divisionId}" class="form-select" th:errorclass="is-invalid">
+          <option value="">選択してください</option>
+          <option th:each="division : ${divisions}" th:value="${division.organizationId}"
+            th:text="${division.organizationName}"></option>
         </select>
-        <span class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('divisionId')}" th:errors="*{divisionId}" class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="organizationId" class="form-label fw-bold">部門</label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
+        <select id="organizationId" th:field="*{organizationId}" class="form-select" th:errorclass="is-invalid"
+          disabled>
+          <option value="">選択してください</option>
         </select>
-        <span class="invalid-feedback"></span>
+        <span th:if="${#fields.hasErrors('organizationId')}" th:errors="*{organizationId}"
+          class="invalid-feedback"></span>
       </div>
     </div>
 
@@ -77,47 +75,55 @@
     <div class="row mb-3">
       <div class="col-6">
         <label for="salesFrom" class="form-label fw-bold">売上高_実績_FROM(千円)</label>
-        <input type="text" placeholder="売上高_実績_FROM" class="form-control" maxlength="9" />
-        <span class="invalid-feedback"></span>
-        <span class="invalid-feedback"></span>
+        <input type="text" th:field="*{salesFrom}" placeholder="売上高_実績_FROM" class="form-control"
+          th:errorclass="is-invalid" maxlength="9" />
+        <span th:if="${#fields.hasErrors('salesFrom')}" th:errors="*{salesFrom}" class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="salesTo" class="form-label fw-bold">売上高_実績_TO(千円)</label>
-        <input type="text" placeholder="売上高_実績_TO" class="form-control" maxlength="9" />
-        <span class="invalid-feedback"></span>
+        <input type="text" th:field="*{salesTo}" placeholder="売上高_実績_TO" class="form-control" th:errorclass="is-invalid"
+          maxlength="9" />
+        <span th:if="${#fields.hasErrors('salesTo')}" th:errors="*{salesTo}" class="invalid-feedback"></span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectStartDateFrom" class="form-label fw-bold">開始日_FROM</label>
-        <input type="date" placeholder="開始日_FROM" class="form-control" />
-        <span class="invalid-feedback"></span>
-        <span class="invalid-feedback"></span>
+        <input type="date" th:field="*{projectStartDateFrom}" placeholder="開始日_FROM" class="form-control"
+          th:errorclass="is-invalid" />
+        <span th:if="${#fields.hasErrors('projectStartDateFrom')}" th:errors="*{projectStartDateFrom}"
+          class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectStartDateTo" class="form-label fw-bold">開始日_TO</label>
-        <input type="date" placeholder="開始日_TO" class="form-control" />
-        <span class="invalid-feedback"></span>
+        <input type="date" th:field="*{projectStartDateTo}" placeholder="開始日_TO" class="form-control"
+          th:errorclass="is-invalid" />
+        <span th:if="${#fields.hasErrors('projectStartDateTo')}" th:errors="*{projectStartDateTo}"
+          class="invalid-feedback"></span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectEndDateFrom" class="form-label fw-bold">終了日_FROM</label>
-        <input type="date" placeholder="終了日_FROM" class="form-control" />
-        <span class="invalid-feedback"></span>
-        <span class="invalid-feedback"></span>
+        <input type="date" th:field="*{projectEndDateFrom}" placeholder="終了日_FROM" class="form-control"
+          th:errorclass="is-invalid" />
+        <span th:if="${#fields.hasErrors('projectEndDateFrom')}" th:errors="*{projectEndDateFrom}"
+          class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectEndDateTo" class="form-label fw-bold">終了日_TO</label>
-        <input type="date" placeholder="終了日_TO" class="form-control" />
-        <span class="invalid-feedback"></span>
+        <input type="date" th:field="*{projectEndDateTo}" placeholder="終了日_TO" class="form-control"
+          th:errorclass="is-invalid" />
+        <span th:if="${#fields.hasErrors('projectEndDateTo')}" th:errors="*{projectEndDateTo}"
+          class="invalid-feedback"></span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col">
         <label for="projectName" class="form-label fw-bold">プロジェクト名で検索</label>
-        <input type="text" placeholder="プロジェクト名で検索" class="form-control" maxlength="128" />
-        <span class="invalid-feedback"></span>
+        <input type="text" th:field="*{projectName}" placeholder="プロジェクト名で検索" class="form-control"
+          th:errorclass="is-invalid" maxlength="128" />
+        <span th:if="${#fields.hasErrors('projectName')}" th:errors="*{projectName}" class="invalid-feedback"></span>
       </div>
     </div>
     <div class="row justify-content-center pt-4">
