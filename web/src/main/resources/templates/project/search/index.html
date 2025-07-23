@@ -13,6 +13,8 @@
 
   <!--/* 画面固有のJavaScriptファイル */-->
   <th:block th:fragment="additionalScripts">
+    <!-- サーバーサイドデータをJavaScriptに渡す -->
+    <script th:src="@{/js/project/create.js}" src="../../../static/js/project/create.js" defer></script>
   </th:block>
 </head>
 

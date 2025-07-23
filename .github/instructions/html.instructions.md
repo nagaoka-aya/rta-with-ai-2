@@ -4,8 +4,14 @@ applyTo: "web/src/main/resources/templates/**/*.html"
 
 ## 外部ファイルの参照
 
-- cssおよびjsファイルの参照はhead要素内に含めること
-
+- 画面固有のcssおよびjsファイルを参照させる場合は以下のように実装すること
+```html
+<!--/* 画面固有のJavaScriptファイル */-->
+  <th:block th:fragment="additionalScripts">
+    <!-- サーバーサイドデータをJavaScriptに渡す -->
+    <script th:src="@{/path/to/filename.js}" src="../../static/path/to/filename.js" defer></script>
+  </th:block>
+```
 
 ## エラーの表示
 
