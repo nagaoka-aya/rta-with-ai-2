@@ -1,5 +1,8 @@
 package com.example.web.project.form;
 
+import nablarch.core.validation.ee.Domain;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -9,9 +12,11 @@ import java.util.List;
 public class ProjectSearchForm {
 
     /** 事業部ID */
+    @Domain("organizationId")
     private Integer divisionId;
 
     /** 部門ID */
+    @Domain("organizationId")
     private Integer organizationId;
 
     /** プロジェクト種別 */
@@ -21,24 +26,31 @@ public class ProjectSearchForm {
     private List<String> projectClass;
 
     /** 売上高FROM */
+    @Domain("amountOfMoney")
     private Integer salesFrom;
 
     /** 売上高TO */
+    @Domain("amountOfMoney")
     private Integer salesTo;
 
     /** プロジェクト開始日FROM */
+    @DateTimeFormat(pattern = "uuuu-MM-dd")
     private LocalDate projectStartDateFrom;
 
     /** プロジェクト開始日TO */
+    @DateTimeFormat(pattern = "uuuu-MM-dd")
     private LocalDate projectStartDateTo;
 
     /** プロジェクト終了日FROM */
+    @DateTimeFormat(pattern = "uuuu-MM-dd")
     private LocalDate projectEndDateFrom;
 
     /** プロジェクト終了日TO */
+    @DateTimeFormat(pattern = "uuuu-MM-dd")
     private LocalDate projectEndDateTo;
 
     /** プロジェクト名 */
+    @Domain("projectName")
     private String projectName;
 
     /**

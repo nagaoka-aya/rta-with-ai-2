@@ -1,13 +1,17 @@
 package com.example.web.project.controller;
 
+import com.example.web.common.errorhandling.OnRejectError;
 import com.example.web.project.form.ProjectSearchForm;
 import com.example.web.project.service.ProjectService;
 import com.example.web.project.dto.OrganizationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -41,6 +45,19 @@ public class ProjectSearchController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("projectSearchForm", new ProjectSearchForm());
+        return "project/search/index";
+    }
+
+    /**
+     * プロジェクト検索処理。
+     *
+     * @param form フォーム
+     * @param bindingResult バリデーション結果
+     * @return テンプレートパス
+     */
+    @PostMapping("/search")
+    @OnRejectError(path = "project/search/index")
+    public String searchProjects(@Validated ProjectSearchForm form, BindingResult bindingResult) {
         return "project/search/index";
     }
 }

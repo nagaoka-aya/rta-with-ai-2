@@ -7,6 +7,7 @@ applyTo: "web/src/**/*Form.java"
 #### 3.5.1 基本規約
 - JavaBeansパターンに準拠（getter/setterの実装）
 - プロパティには適切なJavaDocを付与
+- 配列を受け取るプロパティは配列型で定義
 
 #### 3.5.2 バリデーション
 - 必須チェックには@Requiredアノテーションを使用

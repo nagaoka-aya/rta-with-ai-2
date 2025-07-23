@@ -25,8 +25,8 @@
       <div class="fs-2 fw-bold">プロジェクト検索</div>
     </div>
   </div>
-  <form method="GET" action="./index.html" th:object="${projectSearchForm}">
-    <span class="text-danger fw-bold"></span>
+  <form method="POST" th:action="@{/project/search/search}" action="./index.html" th:object="${projectSearchForm}">
+    <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="text-danger fw-bold"></span>
     <div class="row mb-3">
       <div class="col-6">
         <label for="divisionId" class="form-label fw-bold">事業部</label>
