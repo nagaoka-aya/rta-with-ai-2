@@ -5,7 +5,11 @@ import com.example.web.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * プロジェクト関連のViewHelper
@@ -27,6 +31,32 @@ public class ProjectViewHelper {
             return "";
         }
         return text.replace(System.lineSeparator(), "<br>");
+    }
+
+    /**
+     * 売上高を3桁区切りのカンマ形式で表示する
+     *
+     * @param sales 売上高
+     * @return カンマ区切りされた売上高文字列
+     */
+    public String formatSales(Integer sales) {
+        if (sales == null) {
+            return "";
+        }
+        return NumberFormat.getNumberInstance(Locale.JAPAN).format(sales);
+    }
+
+    /**
+     * 日付をyyyy/MM/dd形式で表示する
+     *
+     * @param date 日付
+     * @return フォーマットされた日付文字列
+     */
+    public String formatDate(LocalDate date) {
+        if (date == null) {
+            return "";
+        }
+        return date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 
     /**
