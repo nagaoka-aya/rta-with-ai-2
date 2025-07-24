@@ -1,5 +1,6 @@
 package com.example.web.project.form;
 
+import jakarta.validation.constraints.AssertTrue;
 import nablarch.core.validation.ee.Domain;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -52,6 +53,45 @@ public class ProjectSearchForm {
     /** プロジェクト名 */
     @Domain("projectName")
     private String projectName;
+
+    /**
+     * 売上高範囲の妥当性をチェックする
+     *
+     * @return FROMがTO以下の場合true、それ以外の場合false
+     */
+    @AssertTrue(message = "{validator.priceRange.message}")
+    public boolean isValidSalesRange() {
+        if (salesFrom == null || salesTo == null) {
+            return true;
+        }
+        return salesFrom <= salesTo;
+    }
+
+    /**
+     * プロジェクト開始日範囲の妥当性をチェックする
+     *
+     * @return FROMがTO以下の場合true、それ以外の場合false
+     */
+    @AssertTrue(message = "{validator.dateRange.message}")
+    public boolean isValidProjectStartDateRange() {
+        if (projectStartDateFrom == null || projectStartDateTo == null) {
+            return true;
+        }
+        return projectStartDateFrom.isEqual(projectStartDateTo) || projectStartDateFrom.isBefore(projectStartDateTo);
+    }
+
+    /**
+     * プロジェクト終了日範囲の妥当性をチェックする
+     *
+     * @return FROMがTO以下の場合true、それ以外の場合false
+     */
+    @AssertTrue(message = "{validator.dateRange.message}")
+    public boolean isValidProjectEndDateRange() {
+        if (projectEndDateFrom == null || projectEndDateTo == null) {
+            return true;
+        }
+        return projectEndDateFrom.isEqual(projectEndDateTo) || projectEndDateFrom.isBefore(projectEndDateTo);
+    }
 
     /**
      * 事業部IDを取得する

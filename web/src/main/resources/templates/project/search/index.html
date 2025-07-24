@@ -89,6 +89,12 @@
       </div>
     </div>
     <div class="row mb-3">
+      <div class="col-12">
+        <span th:if="${#fields.hasErrors('validSalesRange')}" th:errors="*{validSalesRange}"
+          class="invalid-feedback d-block"></span>
+      </div>
+    </div>
+    <div class="row mb-3">
       <div class="col-6">
         <label for="projectStartDateFrom" class="form-label fw-bold">開始日_FROM</label>
         <input type="date" th:field="*{projectStartDateFrom}" placeholder="開始日_FROM" class="form-control"
@@ -105,6 +111,12 @@
       </div>
     </div>
     <div class="row mb-3">
+      <div class="col-12">
+        <span th:if="${#fields.hasErrors('validProjectStartDateRange')}" th:errors="*{validProjectStartDateRange}"
+          class="invalid-feedback d-block"></span>
+      </div>
+    </div>
+    <div class="row mb-3">
       <div class="col-6">
         <label for="projectEndDateFrom" class="form-label fw-bold">終了日_FROM</label>
         <input type="date" th:field="*{projectEndDateFrom}" placeholder="終了日_FROM" class="form-control"
@@ -118,6 +130,12 @@
           th:errorclass="is-invalid" />
         <span th:if="${#fields.hasErrors('projectEndDateTo')}" th:errors="*{projectEndDateTo}"
           class="invalid-feedback"></span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12">
+        <span th:if="${#fields.hasErrors('validProjectEndDateRange')}" th:errors="*{validProjectEndDateRange}"
+          class="invalid-feedback d-block"></span>
       </div>
     </div>
     <div class="row mb-3">
