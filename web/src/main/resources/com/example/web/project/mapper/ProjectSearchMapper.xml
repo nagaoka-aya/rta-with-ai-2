@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.web.project.mapper.ProjectSearchMapper">
+
+    <resultMap id="ProjectSearchDto" type="com.example.web.project.dto.ProjectSearchDto">
+        <result property="projectId" column="PROJECT_ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="projectClass" column="PROJECT_CLASS"/>
+        <result property="projectManager" column="PROJECT_MANAGER"/>
+        <result property="sales" column="SALES"/>
+        <result property="projectStartDate" column="PROJECT_START_DATE"/>
+        <result property="projectEndDate" column="PROJECT_END_DATE"/>
+        <result property="divisionName" column="DIVISION_NAME"/>
+        <result property="organizationName" column="ORGANIZATION_NAME"/>
+    </resultMap>
+
+    <select id="searchProjects" parameterType="com.example.web.project.dto.ProjectSearchCondition" resultMap="ProjectSearchDto">
+        SELECT
+            p.PROJECT_ID,
+            p.PROJECT_NAME,
+            p.PROJECT_TYPE,
+            p.PROJECT_CLASS,
+            p.PROJECT_MANAGER,
+            p.SALES,
+            p.PROJECT_START_DATE,
+            p.PROJECT_END_DATE,
+            division.ORGANIZATION_NAME AS DIVISION_NAME,
+            dept.ORGANIZATION_NAME AS ORGANIZATION_NAME
+        FROM
+            PROJECT p
+            LEFT JOIN ORGANIZATION dept ON p.ORGANIZATION_ID = dept.ORGANIZATION_ID
+            LEFT JOIN ORGANIZATION division ON dept.UPPER_ORGANIZATION = division.ORGANIZATION_ID
+        <where>
+            <if test="divisionId != null">
+                AND division.ORGANIZATION_ID = #{divisionId}
+            </if>
+            <if test="organizationId != null">
+                AND dept.ORGANIZATION_ID = #{organizationId}
+            </if>
+            <if test="projectType != null and projectType.size() > 0">
+                AND p.PROJECT_TYPE IN
+                <foreach collection="projectType" item="type" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="projectClass != null and projectClass.size() > 0">
+                AND p.PROJECT_CLASS IN
+                <foreach collection="projectClass" item="classType" open="(" separator="," close=")">
+                    #{classType}
+                </foreach>
+            </if>
+            <if test="salesFrom != null">
+                AND p.SALES &gt;= #{salesFrom}
+            </if>
+            <if test="salesTo != null">
+                AND p.SALES &lt;= #{salesTo}
+            </if>
+            <if test="projectStartDateFrom != null">
+                AND p.PROJECT_START_DATE &gt;= #{projectStartDateFrom}
+            </if>
+            <if test="projectStartDateTo != null">
+                AND p.PROJECT_START_DATE &lt;= #{projectStartDateTo}
+            </if>
+            <if test="projectEndDateFrom != null">
+                AND p.PROJECT_END_DATE &gt;= #{projectEndDateFrom}
+            </if>
+            <if test="projectEndDateTo != null">
+                AND p.PROJECT_END_DATE &lt;= #{projectEndDateTo}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                AND p.PROJECT_NAME LIKE CONCAT('%', #{projectName}, '%')
+            </if>
+        </where>
+        ORDER BY p.PROJECT_ID
+    </select>
+
+</mapper>

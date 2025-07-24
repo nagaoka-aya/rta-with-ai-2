@@ -153,39 +153,42 @@
     </div>
   </form>
   <!--/* 以下検索結果時に表示する領域 */-->
-  <th:block>
-    <div></div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">PJ名</th>
-          <th scope="col">事業部</th>
-          <th scope="col">部門</th>
-          <th scope="col">PJ種別</th>
-          <th scope="col">PJ分類</th>
-          <th scope="col">PM</th>
-          <th scope="col">売上高_実績(千円)</th>
-          <th scope="col">開始日</th>
-          <th scope="col">終了日</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <!-- FIXME: Trailing Slash（TrailingSlashMatchの設定デモ用にあえてtrailing slashを残しています。） -->
-            <a href="../detail/index.html">プロジェクト名1</a>
-          </td>
-          <td>A事業部</td>
-          <td>C部門</td>
-          <td>新規開発ＰＪ</td>
-          <td>ＳＳ</td>
-          <td>マネージャー１</td>
-          <td>10,000</td>
-          <td>2019/06/01</td>
-          <td>2019/12/31</td>
-        </tr>
-      </tbody>
-    </table>
+  <th:block th:if="${searchExecuted}">
+    <div th:if="${hasResults}">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">PJ名</th>
+            <th scope="col">事業部</th>
+            <th scope="col">部門</th>
+            <th scope="col">PJ種別</th>
+            <th scope="col">PJ分類</th>
+            <th scope="col">PM</th>
+            <th scope="col">売上高_実績(千円)</th>
+            <th scope="col">開始日</th>
+            <th scope="col">終了日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="project : ${projects}">
+            <td>
+              <a href="#" th:text="${project.projectName}">プロジェクト名1</a>
+            </td>
+            <td th:text="${project.divisionName}">A事業部</td>
+            <td th:text="${project.organizationName}">C部門</td>
+            <td th:text="${project.projectType}">新規開発ＰＪ</td>
+            <td th:text="${project.projectClass}">ＳＳ</td>
+            <td th:text="${project.projectManager}">マネージャー１</td>
+            <td th:text="${project.sales}">10,000</td>
+            <td th:text="${project.projectStartDate}">2019/06/01</td>
+            <td th:text="${project.projectEndDate}">2019/12/31</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:if="${!hasResults}">
+      <p th:text="#{errors.nothing.search.project}" class="text-muted"></p>
+    </div>
   </th:block>
 </body>
 

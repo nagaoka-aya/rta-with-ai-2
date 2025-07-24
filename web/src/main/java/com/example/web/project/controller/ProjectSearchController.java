@@ -3,7 +3,9 @@ package com.example.web.project.controller;
 import com.example.web.common.errorhandling.OnRejectError;
 import com.example.web.project.form.ProjectSearchForm;
 import com.example.web.project.service.ProjectService;
+import com.example.web.project.service.ProjectSearchService;
 import com.example.web.project.dto.OrganizationDto;
+import com.example.web.project.dto.ProjectSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class ProjectSearchController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private ProjectSearchService projectSearchService;
 
     /**
      * 事業部一覧を取得してModelに設定する
@@ -53,11 +58,18 @@ public class ProjectSearchController {
      *
      * @param form フォーム
      * @param bindingResult バリデーション結果
+     * @param model モデル
      * @return テンプレートパス
      */
     @PostMapping("/search")
     @OnRejectError(path = "project/search/index")
-    public String searchProjects(@Validated ProjectSearchForm form, BindingResult bindingResult) {
+    public String searchProjects(@Validated ProjectSearchForm form, BindingResult bindingResult, Model model) {
+        List<ProjectSearchDto> projects = projectSearchService.searchProjects(form);
+        
+        model.addAttribute("projects", projects);
+        model.addAttribute("hasResults", !projects.isEmpty());
+        model.addAttribute("searchExecuted", true);
+        
         return "project/search/index";
     }
 }
