@@ -54,6 +54,10 @@ public class ProjectSearchForm {
     @Domain("projectName")
     private String projectName;
 
+    /** ページ番号 */
+    @Domain("pageNumber")
+    private Integer pageNumber = 0;
+
     /**
      * 売上高範囲の妥当性をチェックする
      *
@@ -289,5 +293,23 @@ public class ProjectSearchForm {
      */
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    /**
+     * ページ番号を取得する
+     *
+     * @return ページ番号
+     */
+    public Integer getPageNumber() {
+        return pageNumber;
+    }
+
+    /**
+     * ページ番号を設定する
+     *
+     * @param pageNumber ページ番号
+     */
+    public void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
     }
 }

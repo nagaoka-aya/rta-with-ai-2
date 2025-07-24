@@ -7,6 +7,7 @@ import com.example.web.project.service.ProjectSearchService;
 import com.example.web.project.dto.OrganizationDto;
 import com.example.web.project.dto.ProjectSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,7 +55,7 @@ public class ProjectSearchController {
     }
 
     /**
-     * プロジェクト検索処理。
+     * プロジェクト検索処理（POST）。
      *
      * @param form フォーム
      * @param bindingResult バリデーション結果
@@ -64,12 +65,36 @@ public class ProjectSearchController {
     @PostMapping("/search")
     @OnRejectError(path = "project/search/index")
     public String searchProjects(@Validated ProjectSearchForm form, BindingResult bindingResult, Model model) {
-        List<ProjectSearchDto> projects = projectSearchService.searchProjects(form);
-        
-        model.addAttribute("projects", projects);
-        model.addAttribute("hasResults", !projects.isEmpty());
-        model.addAttribute("searchExecuted", true);
-        
+        executeSearch(form, model);
         return "project/search/index";
+    }
+
+    /**
+     * プロジェクト検索処理（GET）。
+     *
+     * @param form フォーム
+     * @param model モデル
+     * @return テンプレートパス
+     */
+    @GetMapping("/search")
+    public String searchProjectsGet(ProjectSearchForm form, Model model) {
+        executeSearch(form, model);
+        return "project/search/index";
+    }
+
+    /**
+     * 検索処理を実行してModelに結果を設定する
+     *
+     * @param form フォーム
+     * @param model モデル
+     */
+    private void executeSearch(ProjectSearchForm form, Model model) {
+        Page<ProjectSearchDto> page = projectSearchService.searchProjects(form);
+        
+        model.addAttribute("projects", page.getContent());
+        model.addAttribute("page", page);
+        model.addAttribute("hasResults", page.hasContent());
+        model.addAttribute("searchExecuted", true);
+        model.addAttribute("projectSearchForm", form);
     }
 }

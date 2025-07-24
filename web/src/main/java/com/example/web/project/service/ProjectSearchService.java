@@ -5,6 +5,10 @@ import com.example.web.project.dto.ProjectSearchDto;
 import com.example.web.project.form.ProjectSearchForm;
 import com.example.web.project.mapper.ProjectSearchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +23,13 @@ public class ProjectSearchService {
     private ProjectSearchMapper projectSearchMapper;
 
     /**
-     * プロジェクトを検索する
+     * プロジェクト検索を実行する
      *
      * @param form 検索フォーム
-     * @return 検索結果のプロジェクト一覧
+     * @return 検索結果のページ
      */
-    public List<ProjectSearchDto> searchProjects(ProjectSearchForm form) {
+    public Page<ProjectSearchDto> searchProjects(ProjectSearchForm form) {
+        // フォームから検索条件に変換
         ProjectSearchCondition condition = new ProjectSearchCondition();
         condition.setDivisionId(form.getDivisionId());
         condition.setOrganizationId(form.getOrganizationId());
@@ -38,6 +43,13 @@ public class ProjectSearchService {
         condition.setProjectEndDateTo(form.getProjectEndDateTo());
         condition.setProjectName(form.getProjectName());
 
-        return projectSearchMapper.searchProjects(condition);
+        // ページング情報作成
+        Pageable pageable = PageRequest.of(form.getPageNumber(), 20);
+
+        // 検索実行
+        List<ProjectSearchDto> projects = projectSearchMapper.searchProjects(condition, pageable);
+        long totalCount = projectSearchMapper.countSearchProjects(condition);
+
+        return new PageImpl<>(projects, pageable, totalCount);
     }
 }

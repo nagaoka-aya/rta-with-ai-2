@@ -25,8 +25,12 @@
       <div class="fs-2 fw-bold">プロジェクト検索</div>
     </div>
   </div>
-  <form method="POST" th:action="@{/project/search/search}" action="./index.html" th:object="${projectSearchForm}">
+  <form method="GET" th:action="@{/project/search/search}" action="./index.html" th:object="${projectSearchForm}">
     <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="text-danger fw-bold"></span>
+
+    <!-- 検索条件を隠しフィールドで保持 -->
+    <input type="hidden" th:field="*{pageNumber}" />
+
     <div class="row mb-3">
       <div class="col-6">
         <label for="divisionId" class="form-label fw-bold">事業部</label>
@@ -185,6 +189,10 @@
           </tr>
         </tbody>
       </table>
+
+      <!-- ページング部品 -->
+      <div th:if="${page.totalPages > 1}" th:replace="common/paging :: navigation('/project/search/search', ${page})">
+      </div>
     </div>
     <div th:if="${!hasResults}">
       <p th:text="#{errors.nothing.search.project}" class="text-muted"></p>

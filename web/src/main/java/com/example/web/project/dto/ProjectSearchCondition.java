@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * プロジェクト検索条件DTO
+ * プロジェクト検索条件
  */
 public class ProjectSearchCondition {
 

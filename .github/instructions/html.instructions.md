@@ -80,18 +80,6 @@ public List<String> getValues(String codeId, String pattern)
 ### 12.2 ページングヘルパー（PagingViewHelper）
 ページングを行う際はPagingViewHelperを利用する。
 
-```java
-/**
- * 現在のページ情報をもとにナビゲーションを行うページ番号の配列を生成して返す。
- *
- * @param result 現在のページ情報
- * @return ナビゲーションを行うページ番号の配列
- */
-public int[] getPageNumbers(Page<?> result)
-
-// テンプレートでの使用例
-<li class="page-item" th:classappend="${pageNumber == page.number} ? 'active' : ''"  th:each="pageNumber : ${@pagingViewHelper.getPageNumbers(page)}">
-  <a class="page-link" th:if="${pageNumber != page.number}" th:href="@{__${path}__/(pageNumber=${pageNumber})}" th:text="${pageNumber + 1}">1</a>
-  <span class="page-link" th:if="${pageNumber == page.number}" th:text="${pageNumber + 1}"></span>
-</li>
+```html
+<div th:replace="common/paging :: navigation('path', Pageオブジェクト)"></div>
 ```
