@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -80,6 +81,20 @@ public class ProjectSearchController {
     public String searchProjectsGet(ProjectSearchForm form, Model model) {
         executeSearch(form, model);
         return "project/search/index";
+    }
+
+    /**
+     * プロジェクト詳細画面の表示。
+     *
+     * @param projectId プロジェクトID
+     * @param model モデル
+     * @return テンプレートパス
+     */
+    @GetMapping("/detail")
+    public String detail(@RequestParam Integer projectId, Model model) {
+        System.out.println("詳細表示対象プロジェクトID: " + projectId);
+        model.addAttribute("projectId", projectId);
+        return "project/detail/index";
     }
 
     /**

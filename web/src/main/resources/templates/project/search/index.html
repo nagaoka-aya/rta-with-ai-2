@@ -176,7 +176,8 @@
         <tbody>
           <tr th:each="project : ${projects}">
             <td>
-              <a href="#" th:text="${project.projectName}">プロジェクト名1</a>
+              <a th:href="@{/project/search/detail(projectId=${project.projectId})}" th:text="${project.projectName}"
+                class="text-decoration-none">プロジェクト名1</a>
             </td>
             <td th:text="${project.divisionName}">A事業部</td>
             <td th:text="${project.organizationName}">C部門</td>
