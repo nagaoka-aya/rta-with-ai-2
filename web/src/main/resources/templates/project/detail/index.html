@@ -57,7 +57,8 @@
     <div class="col-6">
       <span class="form-label fw-bold">顧客</span>
       <div class="input-group">
-        <span class="form-control-plaintext" th:text="${project.clientId}">0</span>
+        <span class="form-control-plaintext"
+          th:text="${@projectViewHelper.getClientName(project.clientId)}">TIS株式会社（仮）</span>
       </div>
     </div>
   </div>
