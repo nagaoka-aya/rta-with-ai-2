@@ -29,7 +29,11 @@ applyTo: "web/src/**/*Controller.java"
 - complete(): 完了画面表示
 - back(): 入力画面への戻り処理
 
-#### 3.6.5 実装例
+#### 3.6.5 エラーハンドリング
+- エラー発生時は、@OnRejectErrorアノテーションを使用して適切な画面にリダイレクト
+- Not Found時はcom.example.common.exception.DataNotFoundExceptionをスローする。Handlerにより適切なページが表示される。
+
+#### 3.6.6 実装例
 ```java
 import com.example.web.common.errorhandling.OnRejectError;
 import jp.fintan.keel.spring.web.token.transaction.TransactionTokenCheck;
