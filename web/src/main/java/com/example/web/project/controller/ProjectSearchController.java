@@ -88,18 +88,25 @@ public class ProjectSearchController {
      * プロジェクト詳細画面の表示。
      *
      * @param projectId プロジェクトID
+     * @param form 検索条件フォーム
      * @param model モデル
      * @return テンプレートパス
      */
     @GetMapping("/detail")
-    public String detail(@RequestParam Integer projectId, Model model) {
+    public String detail(@RequestParam Integer projectId, ProjectSearchForm form, Model model) {
         ProjectDetailDto project = projectSearchService.getProjectDetail(projectId);
         
         if (project == null) {
             return "error/general";
         }
         
+        // 検索条件が空の場合は新しいフォームインスタンスを設定
+        if (form == null) {
+            form = new ProjectSearchForm();
+        }
+        
         model.addAttribute("project", project);
+        model.addAttribute("searchForm", form);
         return "project/detail/index";
     }
 

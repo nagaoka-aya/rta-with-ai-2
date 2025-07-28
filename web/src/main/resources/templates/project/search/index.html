@@ -176,8 +176,20 @@
         <tbody>
           <tr th:each="project : ${projects}">
             <td>
-              <a th:href="@{/project/search/detail(projectId=${project.projectId})}" th:text="${project.projectName}"
-                class="text-decoration-none">プロジェクト名1</a>
+              <a th:href="@{/project/search/detail(projectId=${project.projectId}, 
+                                                 divisionId=${projectSearchForm.divisionId}, 
+                                                 organizationId=${projectSearchForm.organizationId}, 
+                                                 projectType=${projectSearchForm.projectType}, 
+                                                 projectClass=${projectSearchForm.projectClass}, 
+                                                 salesFrom=${projectSearchForm.salesFrom}, 
+                                                 salesTo=${projectSearchForm.salesTo}, 
+                                                 projectStartDateFrom=${projectSearchForm.projectStartDateFrom}, 
+                                                 projectStartDateTo=${projectSearchForm.projectStartDateTo}, 
+                                                 projectEndDateFrom=${projectSearchForm.projectEndDateFrom}, 
+                                                 projectEndDateTo=${projectSearchForm.projectEndDateTo}, 
+                                                 projectName=${projectSearchForm.projectName}, 
+                                                 pageNumber=${projectSearchForm.pageNumber})}"
+                th:text="${project.projectName}" class="text-decoration-none">プロジェクト名1</a>
             </td>
             <td th:text="${project.divisionName}">A事業部</td>
             <td th:text="${project.organizationName}">C部門</td>
