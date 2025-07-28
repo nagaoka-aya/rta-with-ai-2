@@ -2,6 +2,7 @@ package com.example.web.project.service;
 
 import com.example.web.project.dto.ProjectSearchCondition;
 import com.example.web.project.dto.ProjectSearchDto;
+import com.example.web.project.dto.ProjectDetailDto;
 import com.example.web.project.form.ProjectSearchForm;
 import com.example.web.project.mapper.ProjectSearchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,15 @@ public class ProjectSearchService {
         long totalCount = projectSearchMapper.countSearchProjects(condition);
 
         return new PageImpl<>(projects, pageable, totalCount);
+    }
+
+    /**
+     * プロジェクト詳細を取得する
+     *
+     * @param projectId プロジェクトID
+     * @return プロジェクト詳細情報
+     */
+    public ProjectDetailDto getProjectDetail(Integer projectId) {
+        return projectSearchMapper.getProjectDetail(projectId);
     }
 }

@@ -15,6 +15,22 @@
         <result property="organizationName" column="ORGANIZATION_NAME"/>
     </resultMap>
 
+    <resultMap id="ProjectDetailDto" type="com.example.web.project.dto.ProjectDetailDto">
+        <result property="projectId" column="PROJECT_ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="projectClass" column="PROJECT_CLASS"/>
+        <result property="projectManager" column="PROJECT_MANAGER"/>
+        <result property="projectLeader" column="PROJECT_LEADER"/>
+        <result property="sales" column="SALES"/>
+        <result property="projectStartDate" column="PROJECT_START_DATE"/>
+        <result property="projectEndDate" column="PROJECT_END_DATE"/>
+        <result property="divisionName" column="DIVISION_NAME"/>
+        <result property="organizationName" column="ORGANIZATION_NAME"/>
+        <result property="clientId" column="CLIENT_ID"/>
+        <result property="note" column="NOTE"/>
+    </resultMap>
+
     <sql id="searchCondition">
         <where>
             <if test="condition.divisionId != null">
@@ -87,6 +103,29 @@
             LEFT JOIN ORGANIZATION dept ON p.ORGANIZATION_ID = dept.ORGANIZATION_ID
             LEFT JOIN ORGANIZATION division ON dept.UPPER_ORGANIZATION = division.ORGANIZATION_ID
         <include refid="searchCondition"/>
+    </select>
+
+    <select id="getProjectDetail" resultMap="ProjectDetailDto">
+        SELECT
+            p.PROJECT_ID,
+            p.PROJECT_NAME,
+            p.PROJECT_TYPE,
+            p.PROJECT_CLASS,
+            p.PROJECT_MANAGER,
+            p.PROJECT_LEADER,
+            p.SALES,
+            p.PROJECT_START_DATE,
+            p.PROJECT_END_DATE,
+            p.CLIENT_ID,
+            p.NOTE,
+            division.ORGANIZATION_NAME AS DIVISION_NAME,
+            dept.ORGANIZATION_NAME AS ORGANIZATION_NAME
+        FROM
+            PROJECT p
+            LEFT JOIN ORGANIZATION dept ON p.ORGANIZATION_ID = dept.ORGANIZATION_ID
+            LEFT JOIN ORGANIZATION division ON dept.UPPER_ORGANIZATION = division.ORGANIZATION_ID
+        WHERE
+            p.PROJECT_ID = #{projectId}
     </select>
 
 </mapper>

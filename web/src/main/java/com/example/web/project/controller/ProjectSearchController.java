@@ -6,6 +6,7 @@ import com.example.web.project.service.ProjectService;
 import com.example.web.project.service.ProjectSearchService;
 import com.example.web.project.dto.OrganizationDto;
 import com.example.web.project.dto.ProjectSearchDto;
+import com.example.web.project.dto.ProjectDetailDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -92,8 +93,13 @@ public class ProjectSearchController {
      */
     @GetMapping("/detail")
     public String detail(@RequestParam Integer projectId, Model model) {
-        System.out.println("詳細表示対象プロジェクトID: " + projectId);
-        model.addAttribute("projectId", projectId);
+        ProjectDetailDto project = projectSearchService.getProjectDetail(projectId);
+        
+        if (project == null) {
+            return "error/general";
+        }
+        
+        model.addAttribute("project", project);
         return "project/detail/index";
     }
 
