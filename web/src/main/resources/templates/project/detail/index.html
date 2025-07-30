@@ -105,8 +105,9 @@
                                          pageNumber=${searchForm.pageNumber})}" href="../search/index.html">戻る</a>
     </div>
     <div class="col-2">
-      <!-- FIXME: Trailing Slash（TrailingSlashMatchの設定デモ用にあえてtrailing slashを残しています。） -->
-      <a class="btn btn-primary w-100" href="../update/index.html">更新</a>
+      <!-- プロジェクト更新画面へのリンク -->
+      <a class="btn btn-primary w-100" th:href="@{/project/update/{projectId}(projectId=${project.projectId})}"
+        href="../update/index.html">更新</a>
     </div>
   </div>
 </body>

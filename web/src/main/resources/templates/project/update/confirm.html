@@ -23,8 +23,8 @@
       <div class="fs-2 fw-bold">プロジェクト更新確認</div>
     </div>
   </div>
-  <form method="POST" action="./complete.html">
-    <span class="text-danger fw-bold"></span>
+  <form method="POST" th:action="@{/project/update/complete}" action="./complete.html">
+    <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="text-danger fw-bold"></span>
     <div class="row mb-3">
       <div class="col-6">
         <span class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></span>

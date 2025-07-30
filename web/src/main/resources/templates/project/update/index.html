@@ -23,8 +23,8 @@
       <div class="fs-2 fw-bold">プロジェクト更新</div>
     </div>
   </div>
-  <form method="POST" action="./confirm.html">
-    <span class="text-danger fw-bold"></span>
+  <form method="POST" th:action="@{/project/update/confirm}" action="./confirm.html">
+    <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="text-danger fw-bold"></span>
 
     <div class="row mb-3">
       <div class="col-6">
@@ -129,7 +129,9 @@
       <div class="col-2">
         <!--/* プロジェクト詳細画面に戻る */-->
         <!-- FIXME: Trailing Slash（TrailingSlashMatchの設定デモ用にあえてtrailing slashを残しています。） -->
-        <a class="btn btn-primary w-100" href="../detail/index.html">戻る</a>
+        <a class="btn btn-primary w-100"
+          th:href="@{/project/detail/{projectId}(projectId=${projectUpdateForm?.projectId})}"
+          href="../detail/index.html">戻る</a>
       </div>
       <div class="col-2">
         <input class="btn btn-primary w-100" type="submit" value="確認" />
