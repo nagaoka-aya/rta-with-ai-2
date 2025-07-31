@@ -7,10 +7,11 @@ applyTo: "web/src/**/*Form.java"
 #### 3.5.1 基本規約
 - JavaBeansパターンに準拠（getter/setterの実装）
 - プロパティには適切なJavaDocを付与
+- 配列を受け取るプロパティは配列型で定義
 
 #### 3.5.2 バリデーション
 - 必須チェックには@Requiredアノテーションを使用
-- ドメインバリデーションには@Domainアノテーションを使用( ドメインの定義は #file:common\src\main\java\com\example\common\nablarch\validation\DomainBean.java 参照)
+- ドメインバリデーションには@Domainアノテーションを使用( ドメインの定義は[DomainBean.java](../../common/src/main/java/com/example/common/nablarch/validation/DomainBean.java) 参照)
 - 日付項目には@DateTimeFormatで形式を指定
 - 項目間の相関チェックは@AssertTrueで実装
 
@@ -26,6 +27,11 @@ applyTo: "web/src/**/*Form.java"
 
 #### 3.5.5 実装例
 ```java
+import jakarta.validation.constraints.AssertTrue;
+import org.springframework.format.annotation.DateTimeFormat;
+import nablarch.core.validation.ee.Domain;
+import nablarch.core.validation.ee.Required;
+
 @Required
 @Domain("projectName")
 private String projectName;

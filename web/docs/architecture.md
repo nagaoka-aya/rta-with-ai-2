@@ -53,7 +53,7 @@ com.example.web
 
 - Model
   - データベースのテーブル構造を反映
-  - ライブラリとして`com.example.web.project.model.detail`namespaceに実装済み
+  - ライブラリとして`com.example.common.generated.model`namespaceに実装済み
   - 永続化層との連携に使用
 
 ### 3.2 APIとの連携
@@ -231,4 +231,3 @@ com.example.web
 ### 11.5 その他
 - Apache Commons Lang3: ユーティリティライブラリ
 - Keel Transaction Token: 二重送信防止
-
