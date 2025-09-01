@@ -12,7 +12,7 @@
 
 	<properties>
 		<gsp.driver>org.postgresql.Driver</gsp.driver>
-		<gsp.url>jdbc:postgresql://postgres-rta2:5432/postgres</gsp.url>
+		<gsp.url>jdbc:postgresql://localhost:5432/postgres</gsp.url>
 		<gsp.adminUser>postgres</gsp.adminUser>
 		<gsp.adminPassword>password</gsp.adminPassword>
 		<gsp.user>postgres</gsp.user>
