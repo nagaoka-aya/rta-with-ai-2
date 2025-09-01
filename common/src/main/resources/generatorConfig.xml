@@ -10,7 +10,7 @@
 		</commentGenerator>
 
 		<jdbcConnection driverClass="org.postgresql.Driver"
-						connectionURL="jdbc:postgresql://postgres-rta2:5432/postgres" userId="postgres" password="password" />
+						connectionURL="jdbc:postgresql://localhost:5432/postgres" userId="postgres" password="password" />
 
 		<javaTypeResolver>
 			<property name="useJSR310Types" value="true"/>
