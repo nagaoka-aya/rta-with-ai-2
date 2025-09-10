@@ -19,43 +19,43 @@
       <div class="fs-2 fw-bold">プロジェクト登録</div>
     </div>
   </div>
-  <form method="POST" action="./confirm.html">
+  <form method="POST" th:action="@{/project/create/confirm}" action="./confirm.html">
     <span class="text-danger fw-bold"></span>
     <div class="row mb-3">
       <div class="col-6">
         <label for="divisionId" class="form-label fw-bold">事業部/部門<span class="fw-6 text-danger">*</span></label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
+        <select class="form-select" id="divisionId" name="divisionId">
+          <option value="">選択してください</option>
+          <option value="1">A事業部</option>
+          <option value="2">B事業部</option>
+          <option value="3">C事業部</option>
         </select>
         <span class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="organizationId" class="form-label">&nbsp;</label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
+        <select class="form-select" id="organizationId" name="organizationId">
+          <option value="">選択してください</option>
+          <option value="11">A部門</option>
+          <option value="12">B部門</option>
+          <option value="13">C部門</option>
         </select>
         <span class="invalid-feedback"></span>
       </div>
     </div>
     <div class="col mb-3">
       <label for="projectName" class="form-label fw-bold">PJ名<span class="fw-6 text-danger">*</span></label>
-      <input type="text" placeholder="PJ名" class="form-control" maxlength="128" />
+      <input type="text" id="projectName" name="projectName" placeholder="PJ名" class="form-control" maxlength="128" />
       <span class="invalid-feedback"></span>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectType" class="form-label fw-bold">PJ種別<span class="fw-6 text-danger">*</span></label>
-        <select class="form-select">
-          <option value=""></option>
-          <option>
-            ...
-          </option>
+        <select class="form-select" id="projectType" name="projectType">
+          <option value="">選択してください</option>
+          <option value="01">新規開発</option>
+          <option value="02">保守</option>
+          <option value="03">改良</option>
         </select>
         <span class="invalid-feedback"></span>
       </div>
@@ -63,8 +63,16 @@
         <label for="projectClass" class="form-label fw-bold">PJ分類<span class="fw-6 text-danger">*</span></label>
         <div>
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" />
-            <label class="form-check-label">SS</label>
+            <input type="radio" id="projectClass01" name="projectClass" value="01" class="form-check-input" />
+            <label for="projectClass01" class="form-check-label">SS</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" id="projectClass02" name="projectClass" value="02" class="form-check-input" />
+            <label for="projectClass02" class="form-check-label">S</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" id="projectClass03" name="projectClass" value="03" class="form-check-input" />
+            <label for="projectClass03" class="form-check-label">A</label>
           </div>
           <span class="invalid-feedback"></span>
         </div>
@@ -73,7 +81,7 @@
     <div class="row mb-3">
       <div class="col-6">
         <label for="sales" class="form-label fw-bold">売上高(千円)</label>
-        <input type="text" placeholder="売上高" class="form-control" maxlength="9" />
+        <input type="text" id="sales" name="sales" placeholder="売上高" class="form-control" maxlength="9" />
         <span class="invalid-feedback"></span>
       </div>
       <div class="col-6">
@@ -92,31 +100,33 @@
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectManager" class="form-label fw-bold">PM<span class="fw-6 text-danger">*</span></label>
-        <input type="text" placeholder="PM" class="form-control" maxlength="128" />
+        <input type="text" id="projectManager" name="projectManager" placeholder="PM" class="form-control"
+          maxlength="128" />
         <span class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectLeader" class="form-label fw-bold">PL<span class="fw-6 text-danger">*</span></label>
-        <input type="text" placeholder="PL" class="form-control" maxlength="128" />
+        <input type="text" id="projectLeader" name="projectLeader" placeholder="PL" class="form-control"
+          maxlength="128" />
         <span class="invalid-feedback"></span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-6">
         <label for="projectStartDate" class="form-label fw-bold">開始日<span class="fw-6 text-danger">*</span></label>
-        <input type="date" placeholder="開始日" class="form-control" />
+        <input type="date" id="projectStartDate" name="projectStartDate" placeholder="開始日" class="form-control" />
         <span class="invalid-feedback"></span>
         <span class="invalid-feedback"></span>
       </div>
       <div class="col-6">
         <label for="projectEndDate" class="form-label fw-bold">終了日<span class="fw-6 text-danger">*</span></label>
-        <input type="date" placeholder="終了日" class="form-control" />
+        <input type="date" id="projectEndDate" name="projectEndDate" placeholder="終了日" class="form-control" />
         <span class="invalid-feedback"></span>
       </div>
     </div>
     <div class="col mb-3">
       <label for="note" class="form-label fw-bold">備考</label>
-      <textarea class="form-control" maxlength="512"></textarea>
+      <textarea id="note" name="note" class="form-control" maxlength="512"></textarea>
       <span class="invalid-feedback"></span>
     </div>
 
