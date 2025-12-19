@@ -1,6 +1,6 @@
 ---
 mode: 'agent'
-model: Claude Sonnet 4
+model: Claude Sonnet 4.5
 tools: ['edit/createFile', 'edit/editFiles', 'DatabaseServer/*', 'playwright/browser_click', 'playwright/browser_close', 'playwright/browser_console_messages', 'playwright/browser_drag', 'playwright/browser_fill_form', 'playwright/browser_handle_dialog', 'playwright/browser_hover', 'playwright/browser_navigate', 'playwright/browser_navigate_back', 'playwright/browser_network_requests', 'playwright/browser_press_key', 'playwright/browser_resize', 'playwright/browser_select_option', 'playwright/browser_snapshot', 'playwright/browser_tabs', 'playwright/browser_take_screenshot', 'playwright/browser_type', 'playwright/browser_wait_for']
 description: '実装を依頼するプロンプト'
 ---
